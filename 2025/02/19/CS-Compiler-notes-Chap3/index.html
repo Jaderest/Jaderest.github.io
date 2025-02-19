@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Chap3_词法分析 | Jaderest</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="目录 目录 概念性内容 词法单元、模式、词素 正则表达式   词法单元的识别 保留字和标识符的识别 词法分析器的体系结构 处理多个模式的方法   词法分析器生成工具及设计 词法分析工具Lex&#x2F;Flex Lex源程序的结构 词法分析器的工作方式 Lex中冲突解决办法   有穷自动机 实例们 Lex源程序的实例">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chap3_词法分析">
+<meta property="og:url" content="http://jaderest.github.io/2025/02/19/CS-Compiler-notes-Chap3/index.html">
+<meta property="og:site_name" content="Jaderest">
+<meta property="og:description" content="目录 目录 概念性内容 词法单元、模式、词素 正则表达式   词法单元的识别 保留字和标识符的识别 词法分析器的体系结构 处理多个模式的方法   词法分析器生成工具及设计 词法分析工具Lex&#x2F;Flex Lex源程序的结构 词法分析器的工作方式 Lex中冲突解决办法   有穷自动机 实例们 Lex源程序的实例">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://jaderest.github.io/CS-Compiler-notes-Chap3/3-2.png">
+<meta property="og:image" content="http://jaderest.github.io/CS-Compiler-notes-Chap3/3-3.png">
+<meta property="og:image" content="http://jaderest.github.io/CS-Compiler-notes-Chap3/3-4.png">
+<meta property="og:image" content="http://jaderest.github.io/CS-Compiler-notes-Chap3/3-5.png">
+<meta property="og:image" content="http://jaderest.github.io/CS-Compiler-notes-Chap3/3-6.png">
+<meta property="article:published_time" content="2025-02-19T02:37:07.000Z">
+<meta property="article:modified_time" content="2025-02-19T15:28:30.952Z">
+<meta property="article:author" content="Jaderest">
+<meta property="article:tag" content="编译原理">
+<meta property="article:tag" content="notes">
+<meta property="article:tag" content="词法分析">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jaderest.github.io/CS-Compiler-notes-Chap3/3-2.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Jaderest" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jaderest</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">我的个人博客~</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://jaderest.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-CS-Compiler-notes-Chap3" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/02/19/CS-Compiler-notes-Chap3/" class="article-date">
+  <time class="dt-published" datetime="2025-02-19T02:37:07.000Z" itemprop="datePublished">2025-02-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Chap3_词法分析
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#%E7%9B%AE%E5%BD%95">目录</a></li>
+<li><a href="#%E6%A6%82%E5%BF%B5%E6%80%A7%E5%86%85%E5%AE%B9">概念性内容</a><ul>
+<li><a href="#%E8%AF%8D%E6%B3%95%E5%8D%95%E5%85%83%E6%A8%A1%E5%BC%8F%E8%AF%8D%E7%B4%A0">词法单元、模式、词素</a></li>
+<li><a href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F">正则表达式</a></li>
+</ul>
+</li>
+<li><a href="#%E8%AF%8D%E6%B3%95%E5%8D%95%E5%85%83%E7%9A%84%E8%AF%86%E5%88%AB">词法单元的识别</a><ul>
+<li><a href="#%E4%BF%9D%E7%95%99%E5%AD%97%E5%92%8C%E6%A0%87%E8%AF%86%E7%AC%A6%E7%9A%84%E8%AF%86%E5%88%AB">保留字和标识符的识别</a></li>
+<li><a href="#%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8%E7%9A%84%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84">词法分析器的体系结构</a></li>
+<li><a href="#%E5%A4%84%E7%90%86%E5%A4%9A%E4%B8%AA%E6%A8%A1%E5%BC%8F%E7%9A%84%E6%96%B9%E6%B3%95">处理多个模式的方法</a></li>
+</ul>
+</li>
+<li><a href="#%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7%E5%8F%8A%E8%AE%BE%E8%AE%A1">词法分析器生成工具及设计</a><ul>
+<li><a href="#%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7lexflex">词法分析工具Lex&#x2F;Flex</a></li>
+<li><a href="#lex%E6%BA%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BB%93%E6%9E%84">Lex源程序的结构</a></li>
+<li><a href="#%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F">词法分析器的工作方式</a></li>
+<li><a href="#lex%E4%B8%AD%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95">Lex中冲突解决办法</a></li>
+</ul>
+</li>
+<li><a href="#%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA">有穷自动机</a></li>
+<li><a href="#%E5%AE%9E%E4%BE%8B%E4%BB%AC">实例们</a><ul>
+<li><a href="#lex%E6%BA%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%AE%9E%E4%BE%8B">Lex源程序的实例</a></li>
+</ul>
+</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="概念性内容"><a href="#概念性内容" class="headerlink" title="概念性内容"></a>概念性内容</h2><h3 id="词法单元、模式、词素"><a href="#词法单元、模式、词素" class="headerlink" title="词法单元、模式、词素"></a>词法单元、模式、词素</h3><ul>
+<li>词法单元（token）<ul>
+<li>&lt;词法单元名、属性值（可选）&gt;</li>
+<li>单元名表示词法单位种类的抽象符号，语法分析器通过单元名即可确定词法单元序列的结构</li>
+<li>属性值通常用于语义分析之后的阶段</li>
+</ul>
+</li>
+<li>模式（pattern）<ul>
+<li>描述了一类词法单元的词素可能具有的形式</li>
+<li>通常用正则表达式描述</li>
+</ul>
+</li>
+<li>词素（lexeme）<ul>
+<li>源程序中字符序列（词法单元的<strong>实例</strong>）</li>
+<li>和词法单元的<strong>模式匹配</strong>，从而被词法分析器识别为该词法单元的<strong>实例</strong></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><img src="/CS-Compiler-notes-Chap3/3-2.png" alt="词法单元、模式、词素例子"></p>
+</blockquote>
+<ul>
+<li>词法单元的属性<ul>
+<li>一个模式匹配多个词素时，必须通过<strong>属性</strong>来传递附加的信息<ul>
+<li>属性值将被用于语义分析、代码生成等阶段</li>
+</ul>
+</li>
+<li>不同的目的需要不同的属性<ul>
+<li>属性值通常是一个结构化数据，举例如下<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">词法分析阶段：属性值通常是词素的值</span><br><span class="line">语义分析阶段：属性值通常是词法单元的类型</span><br><span class="line">代码生成阶段：属性值通常是词法单元的地址</span><br></pre></td></tr></table></figure></li>
+<li>如词法单元id的属性<ul>
+<li>词素、类型、第一次出现的位置…</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h3><p>正则表达式可以高效、简洁地描述处理词法单元时用到的模式类型</p>
+<ul>
+<li>串和语言<ul>
+<li><strong>字母表</strong>：有穷的符号集合</li>
+<li><strong>串</strong>：字母表中符号的有穷序列</li>
+<li><strong>语言</strong>：给定字母表上的串的可数集合</li>
+<li>前缀、后缀、字串、真前缀、真后缀、真子串</li>
+<li>连接、指数运算</li>
+<li>语言的运算：并、连接、Kleene闭包、正闭包</li>
+</ul>
+</li>
+<li>正则表达式<ul>
+<li><strong>基本部分</strong>：字母表上的字母、空串</li>
+<li><strong>归纳步骤</strong>：<ul>
+<li>选择</li>
+<li>连接</li>
+<li>闭包</li>
+<li>括号</li>
+<li>考虑优先级</li>
+</ul>
+</li>
+<li>正则集合：可用一个正则表达式定义的语言</li>
+</ul>
+</li>
+<li><strong>正则定义</strong><ul>
+<li><img src="/CS-Compiler-notes-Chap3/3-3.png" alt="正则定义1"><ul>
+<li>此处的$d_i$就像<a href="#%E8%AF%8D%E6%B3%95%E5%8D%95%E5%85%83%E7%9A%84%E8%AF%86%E5%88%AB">词法单元的识别</a>中模式举例的<code>digit</code>、<code>digits</code>等</li>
+</ul>
+</li>
+<li><img src="/CS-Compiler-notes-Chap3/3-4.png" alt="正则定义2"><ul>
+<li>这个箭头差不多就是替换的意思了</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>正则表达式的扩展</strong><ul>
+<li>基本运算符：选择、连接、Kleene闭包</li>
+<li>扩展的运算符<ul>
+<li>一个或多个实例：<code>+</code><ul>
+<li>$r^+$ 等价于 $rr^*$</li>
+</ul>
+</li>
+<li>零个或一个实例：<code>?</code><ul>
+<li>$r?$ 等价于 $r|\epsilon$</li>
+</ul>
+</li>
+<li>字符类<ul>
+<li>$[a_1a_2…a_n]$：$a_1 | a_2 | … | a_n$</li>
+<li>$[a-e]$：$a | b | … | e$</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="词法单元的识别"><a href="#词法单元的识别" class="headerlink" title="词法单元的识别"></a>词法单元的识别</h2><ul>
+<li>词法分析器要求能够<strong>检查输入字符串</strong>，在其<strong>前缀</strong>中找出和某个模式匹配的<strong>词素</strong></li>
+<li>首先以<strong>正则定义</strong>来描述各种词法单元的<strong>模式</strong><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ws -&gt; (blank|tab|newline)*</span><br><span class="line">digit -&gt; [0-9]</span><br><span class="line">digits -&gt; digit+</span><br><span class="line">number -&gt; digits (. digits)? (E(+|-)? digits)?</span><br><span class="line">letter -&gt; [a-zA-Z]</span><br><span class="line">id -&gt; letter (letter|digit)*</span><br><span class="line">if -&gt; if</span><br><span class="line">then -&gt; then</span><br><span class="line">else -&gt; else</span><br><span class="line">relop -&gt; &lt; | &gt; | &lt;= | &gt;= | == | &lt;&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="保留字和标识符的识别"><a href="#保留字和标识符的识别" class="headerlink" title="保留字和标识符的识别"></a>保留字和标识符的识别</h3><ul>
+<li>区别<ul>
+<li>保留字：<code>if</code>、<code>then</code>、<code>else</code></li>
+<li>标识符：以字母开头，后接字母或数字</li>
+</ul>
+</li>
+<li>很多时候保留字也会符合标识符的模式<ul>
+<li>所以需要<strong>保留字的识别优先于标识符</strong>，也即符号表中先填保留字，并指明它们不是普通标识符</li>
+<li>为保留字建立独立的、<strong>高优先级</strong>的状态转换图</li>
+</ul>
+</li>
+</ul>
+<h3 id="词法分析器的体系结构"><a href="#词法分析器的体系结构" class="headerlink" title="词法分析器的体系结构"></a>词法分析器的体系结构</h3><ul>
+<li>状态转换图示例<br><img src="/CS-Compiler-notes-Chap3/3-5.png" alt="状态转换图示例"></li>
+<li>从转换图构造词法分析器的方法<ul>
+<li>变量state记录当前状态</li>
+<li>一个switch根据state值转到相应代码</li>
+<li>每个状态对应于一段代码<ul>
+<li>这段代码根据读入符号确定下一状态</li>
+<li>如果找不到相应的边（state-&gt;state’），则调用fail()进行错误恢复</li>
+</ul>
+</li>
+<li>进入某个接收状态时，返回相应词法单元<ul>
+<li>注意状态有*标记时，需要回退forward指针</li>
+<li>此处forward指针应该是指向字符的指针，如果有*标记，代表这个自动机识别失败，需要回到这个自动机识别字符的开头</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>实际是模拟转换图的运行</li>
+</ul>
+<h3 id="处理多个模式的方法"><a href="#处理多个模式的方法" class="headerlink" title="处理多个模式的方法"></a>处理多个模式的方法</h3><ul>
+<li>词法分析器需要匹配多个模式（因为一个字符序列需要与多个模式匹配并且选择最佳匹配）</li>
+<li>解决方法<ul>
+<li>按照<strong>优先级顺序</strong>尝试各个状态转换图，若引发fail()则回退尝试下一个状态转换图</li>
+<li>更好的方法：<strong>并行</strong>地运行各个状态转换图，通过greedy策略识别<strong>最长</strong>的与某个模式匹配的输入前缀</li>
+<li>实际使用的方法：预先将各个转换图<strong>合成一个状态转换图</strong>，然后运行这个状态转换图</li>
+</ul>
+</li>
+</ul>
+<h2 id="词法分析器生成工具及设计"><a href="#词法分析器生成工具及设计" class="headerlink" title="词法分析器生成工具及设计"></a>词法分析器生成工具及设计</h2><h3 id="词法分析工具Lex-Flex"><a href="#词法分析工具Lex-Flex" class="headerlink" title="词法分析工具Lex&#x2F;Flex"></a>词法分析工具Lex&#x2F;Flex</h3><p>事实上它也算是一个编译器<br><img src="/CS-Compiler-notes-Chap3/3-6.png" alt="Lex&#x2F;Flex"></p>
+<h3 id="Lex源程序的结构"><a href="#Lex源程序的结构" class="headerlink" title="Lex源程序的结构"></a>Lex源程序的结构</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">声明部分</span><br><span class="line">%%</span><br><span class="line">转换规则</span><br><span class="line">%%</span><br><span class="line">辅助函数</span><br></pre></td></tr></table></figure>
+<ul>
+<li>声明部分<ul>
+<li>常量：表示常数的标识符</li>
+<li>正则定义</li>
+</ul>
+</li>
+<li>转换规则<ul>
+<li>模式{动作}<ul>
+<li>模式：正则表达式</li>
+<li>动作：识别到相应模式时采取的处理方式，通常用C语言代码表示</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>辅助函数<ul>
+<li>各个动作中使用的函数</li>
+</ul>
+</li>
+<li>实例如下<ul>
+<li><a href="#lex%E6%BA%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%AE%9E%E4%BE%8B">Lex源程序的实例</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="词法分析器的工作方式"><a href="#词法分析器的工作方式" class="headerlink" title="词法分析器的工作方式"></a>词法分析器的工作方式</h3><ul>
+<li>Lex生成的词法分析器作为一个函数被调用</li>
+<li>每次调用过程中不断读入余下的输入符号</li>
+<li>发现最长的、与某个模式匹配的<strong>输入前缀</strong><ul>
+<li>调用相应的动作，该动作进行相关处理</li>
+<li>之后词法分析器继续寻找其他词素</li>
+</ul>
+</li>
+</ul>
+<h3 id="Lex中冲突解决办法"><a href="#Lex中冲突解决办法" class="headerlink" title="Lex中冲突解决办法"></a>Lex中冲突解决办法</h3><ul>
+<li>冲突：多个输入前缀与某个模式相匹配，或者一个前缀与多个模式相匹配（其实这是一个很常见的事情）</li>
+<li>Lex解决冲突的方法<ul>
+<li>多个前缀可能匹配时，选择<strong>最长</strong>的前缀<ul>
+<li>比如”&lt;&#x3D;”，识别的是<code>&lt;=</code>而不是<code>&lt;</code></li>
+</ul>
+</li>
+<li>最长前缀与多个模式匹配时，选择列在<strong>前面的</strong>模式<ul>
+<li>比如保留字在标识符的规则在标识符的规则之前，词法分析器将识别出保留字</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="有穷自动机"><a href="#有穷自动机" class="headerlink" title="有穷自动机"></a>有穷自动机</h2><p>To be doned</p>
+<h2 id="实例们"><a href="#实例们" class="headerlink" title="实例们"></a>实例们</h2><h3 id="Lex源程序的实例"><a href="#Lex源程序的实例" class="headerlink" title="Lex源程序的实例"></a>Lex源程序的实例</h3><ul>
+<li>实例如下，TO BE CONTINUED</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">%&#123; // 这里的内容一般直接被拷贝到</span><br><span class="line">  /*</span><br><span class="line">    definition of manifest constants</span><br><span class="line">    LT, LE, EQ, NE, GT, GE,</span><br><span class="line">    IF, THEN, ELSE, ID, NUMBER, RELOP</span><br><span class="line">  */</span><br><span class="line">%&#125;</span><br><span class="line"></span><br><span class="line">/* 正则定义 */</span><br><span class="line">delim [ \t\n]</span><br><span class="line">ws &#123;delim&#125;+</span><br><span class="line">letter [A-Za-z]</span><br><span class="line">digit [0-9]</span><br><span class="line">id &#123;letter&#125;(&#123;letter&#125;|&#123;digit&#125;)*</span><br><span class="line">number &#123;digit&#125;+(\.&#123;digit&#125;+)?([Ee][+-]?&#123;digit&#125;+)?</span><br><span class="line">%%</span><br><span class="line">/* 返回值是词法单元的名字 */</span><br><span class="line">&#123;ws&#125; &#123; /* do nothing */ &#125;</span><br><span class="line">if &#123;return (IF);&#125;</span><br><span class="line">then &#123;return (THEN);&#125;</span><br><span class="line">else &#123;return (ELSE);&#125;</span><br><span class="line">/* 以下yylval可以理解为词法单元的属性 */</span><br><span class="line">/* 识别到id时，调用installID()将id加入符号表 */</span><br><span class="line">&#123;id&#125; &#123;yylval = (int)installID(); return (ID);&#125; </span><br><span class="line">&#123;number&#125; &#123;yylval = (int)installNum(); return (NUMBER);&#125;</span><br><span class="line">&quot;&lt;&quot; &#123;yylval = LT; return (RELOP);&#125;</span><br><span class="line">&quot;&lt;=&quot; &#123;yylval = LE; return (RELOP);&#125;</span><br><span class="line">&quot;==&quot; &#123;yylval = EQ; return (RELOP);&#125;</span><br><span class="line">&quot;&lt;&gt;&quot; &#123;yylval = NE; return (RELOP);&#125;</span><br><span class="line">&quot;&gt;&quot; &#123;yylval = GT; return (RELOP);&#125;</span><br><span class="line">&quot;&gt;=&quot; &#123;yylval = GE; return (RELOP);&#125;</span><br><span class="line">%%</span><br><span class="line">/* 辅助函数 */</span><br><span class="line">installID() &#123;</span><br><span class="line">  /* install id in symbol table */</span><br><span class="line">&#125;</span><br><span class="line">installNum() &#123;</span><br><span class="line">  /* install number in symbol table */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://jaderest.github.io/2025/02/19/CS-Compiler-notes-Chap3/" data-id="cm7c199ud00003wylddqo6ur6" data-title="Chap3_词法分析" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/notes/" rel="tag">notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">词法分析</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2025/02/17/PFPL-notes/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">PFPL_notes</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/">Diary</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PFPL-notes/">PFPL notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hello-World/" rel="tag">Hello World</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PFPL/" rel="tag">PFPL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Programming-Language/" rel="tag">Programming Language</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Robert-Harper/" rel="tag">Robert Harper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/notes/" rel="tag">notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">词法分析</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Hello-World/" style="font-size: 10px;">Hello World</a> <a href="/tags/PFPL/" style="font-size: 10px;">PFPL</a> <a href="/tags/Programming-Language/" style="font-size: 10px;">Programming Language</a> <a href="/tags/Robert-Harper/" style="font-size: 10px;">Robert Harper</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/notes/" style="font-size: 10px;">notes</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" style="font-size: 10px;">词法分析</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">February 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/02/19/CS-Compiler-notes-Chap3/">Chap3_词法分析</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/17/PFPL-notes/">PFPL_notes</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/17/Hello-world/">Hello World!</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 Jaderest<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
