@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>编译原理Chap4_语法分析 | Jaderest</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="目录 目录 概念性内容 上下文无关文法   设计文法 二义性的消除 立即左递归的消除 通用的左递归消除 提取公因子的文法变换   自顶向下的语法分析 递归下降的语法分析 过程伪代码 递归下降分析技术的回溯   LL(1)文法 FIRST(A), FOLLOW(A)的定义 LL(1)文法的定义（特征） 预测分析表构造算法 LL(1)文法的递归下降分析 预测分析算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译原理Chap4_语法分析">
+<meta property="og:url" content="http://jaderest.github.io/2025/02/24/CS-Compiler-notes-Chap4/index.html">
+<meta property="og:site_name" content="Jaderest">
+<meta property="og:description" content="目录 目录 概念性内容 上下文无关文法   设计文法 二义性的消除 立即左递归的消除 通用的左递归消除 提取公因子的文法变换   自顶向下的语法分析 递归下降的语法分析 过程伪代码 递归下降分析技术的回溯   LL(1)文法 FIRST(A), FOLLOW(A)的定义 LL(1)文法的定义（特征） 预测分析表构造算法 LL(1)文法的递归下降分析 预测分析算法">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-02-24T02:03:58.000Z">
+<meta property="article:modified_time" content="2025-03-04T06:19:05.782Z">
+<meta property="article:author" content="Jaderest">
+<meta property="article:tag" content="notes">
+<meta property="article:tag" content="编译原理">
+<meta property="article:tag" content="词法分析">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jaderest" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jaderest</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">我的个人博客~</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://jaderest.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-CS-Compiler-notes-Chap4" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/02/24/CS-Compiler-notes-Chap4/" class="article-date">
+  <time class="dt-published" datetime="2025-02-24T02:03:58.000Z" itemprop="datePublished">2025-02-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      编译原理Chap4_语法分析
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#%E7%9B%AE%E5%BD%95">目录</a></li>
+<li><a href="#%E6%A6%82%E5%BF%B5%E6%80%A7%E5%86%85%E5%AE%B9">概念性内容</a><ul>
+<li><a href="#%E4%B8%8A%E4%B8%8B%E6%96%87%E6%97%A0%E5%85%B3%E6%96%87%E6%B3%95">上下文无关文法</a></li>
+</ul>
+</li>
+<li><a href="#%E8%AE%BE%E8%AE%A1%E6%96%87%E6%B3%95">设计文法</a><ul>
+<li><a href="#%E4%BA%8C%E4%B9%89%E6%80%A7%E7%9A%84%E6%B6%88%E9%99%A4">二义性的消除</a></li>
+<li><a href="#%E7%AB%8B%E5%8D%B3%E5%B7%A6%E9%80%92%E5%BD%92%E7%9A%84%E6%B6%88%E9%99%A4"><strong>立即左递归的消除</strong></a></li>
+<li><a href="#%E9%80%9A%E7%94%A8%E7%9A%84%E5%B7%A6%E9%80%92%E5%BD%92%E6%B6%88%E9%99%A4"><strong>通用的左递归消除</strong></a></li>
+<li><a href="#%E6%8F%90%E5%8F%96%E5%85%AC%E5%9B%A0%E5%AD%90%E7%9A%84%E6%96%87%E6%B3%95%E5%8F%98%E6%8D%A2">提取公因子的文法变换</a></li>
+</ul>
+</li>
+<li><a href="#%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E7%9A%84%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90">自顶向下的语法分析</a><ul>
+<li><a href="#%E9%80%92%E5%BD%92%E4%B8%8B%E9%99%8D%E7%9A%84%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90">递归下降的语法分析</a><ul>
+<li><a href="#%E8%BF%87%E7%A8%8B%E4%BC%AA%E4%BB%A3%E7%A0%81">过程伪代码</a></li>
+<li><a href="#%E9%80%92%E5%BD%92%E4%B8%8B%E9%99%8D%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF%E7%9A%84%E5%9B%9E%E6%BA%AF"><strong>递归下降分析技术的回溯</strong></a></li>
+</ul>
+</li>
+<li><a href="#ll1%E6%96%87%E6%B3%95">LL(1)文法</a><ul>
+<li><a href="#firsta-followa%E7%9A%84%E5%AE%9A%E4%B9%89">FIRST(A), FOLLOW(A)的定义</a></li>
+<li><a href="#ll1%E6%96%87%E6%B3%95%E7%9A%84%E5%AE%9A%E4%B9%89%E7%89%B9%E5%BE%81">LL(1)文法的定义（特征）</a></li>
+<li><a href="#%E9%A2%84%E6%B5%8B%E5%88%86%E6%9E%90%E8%A1%A8%E6%9E%84%E9%80%A0%E7%AE%97%E6%B3%95">预测分析表构造算法</a></li>
+<li><a href="#ll1%E6%96%87%E6%B3%95%E7%9A%84%E9%80%92%E5%BD%92%E4%B8%8B%E9%99%8D%E5%88%86%E6%9E%90">LL(1)文法的递归下降分析</a></li>
+<li><a href="#%E9%A2%84%E6%B5%8B%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><strong>预测分析算法</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="概念性内容"><a href="#概念性内容" class="headerlink" title="概念性内容"></a>概念性内容</h2><h3 id="上下文无关文法"><a href="#上下文无关文法" class="headerlink" title="上下文无关文法"></a>上下文无关文法</h3><ul>
+<li>程序设计语言构造的描述<ul>
+<li>程序设计语言构造的语法使用上下文无关文法（CFG）或BNF表示法来描述</li>
+<li>文法给出精确易懂的语法规则</li>
+<li>可以自动构造出某些类型的文法的语法分析器</li>
+<li>文法指出语言的<strong>结构</strong>，有助于进一步的语义处理&#x2F;代码生成</li>
+<li>支持语言的演化和迭代</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>上下文无关文法包含四个部分<ul>
+<li>终结符号：组成串的符号，<strong>词法单元名字</strong></li>
+<li>非终结符号：表示串的集合的语法<strong>变量</strong><ul>
+<li>程序设计语言中通常对应于某个程序构造，比如stmt</li>
+</ul>
+</li>
+<li>开始符号<ul>
+<li>某指定的<strong>非终结符</strong></li>
+<li>对应串的集合就是文法的语言</li>
+</ul>
+</li>
+<li>产生式</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>推导</p>
+</li>
+<li><p>句型&#x2F;句子&#x2F;语言</p>
+<ul>
+<li>句型<ul>
+<li>如果$S \Rightarrow^* \alpha$，则称$\alpha$是$S$的一个句型</li>
+<li>可能包含非终结符号，也可能包含终结符，也可以是空串</li>
+</ul>
+</li>
+<li>句子：不包含非终结符号的句型</li>
+<li>语言<ul>
+<li>文法G的语言就是G的句子的集合，$L(G)$</li>
+<li>$w$在$L(G)$中当且仅当$w$是G的一个句子</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在进行高效的语法分析之前，需要对文法做以下处理</p>
+<ul>
+<li>消除<strong>二义性</strong><ul>
+<li>e.g. 保证else和最近未匹配的then匹配</li>
+</ul>
+</li>
+<li>消除<strong>左递归</strong><ul>
+<li>左递归 $A \Rightarrow^+ A\alpha$</li>
+<li>立即左递归 $A \rightarrow A\alpha$</li>
+<li>自顶向下的语法分析技术不能处理左递归，所以需要消除，而自底向上的技术可以处理</li>
+</ul>
+</li>
+<li>提取<strong>左公因子</strong></li>
+</ul>
+</li>
+</ul>
+<h2 id="设计文法"><a href="#设计文法" class="headerlink" title="设计文法"></a>设计文法</h2><h3 id="二义性的消除"><a href="#二义性的消除" class="headerlink" title="二义性的消除"></a>二义性的消除</h3><h3 id="立即左递归的消除"><a href="#立即左递归的消除" class="headerlink" title="立即左递归的消除"></a><strong>立即左递归的消除</strong></h3><blockquote>
+<p>$A \rightarrow A\alpha_1 | A\alpha_2 | … | A\alpha_n | \beta_1 | \beta_2 | … | \beta_m$<br>替换为<br>$A \rightarrow \beta_1A’ |  … | \beta_mA’$<br>$A’ \rightarrow \alpha_1A’ | … | \alpha_mA’ | \epsilon$</p>
+</blockquote>
+<h3 id="通用的左递归消除"><a href="#通用的左递归消除" class="headerlink" title="通用的左递归消除"></a><strong>通用的左递归消除</strong></h3><ul>
+<li>例如$S \rightarrow Aa|b$ $A \rightarrow Ac|Sd|\epsilon$ $S \Rightarrow Aa \Rightarrow Sda</li>
+<li>输入：没有环和$\epsilon$产生式的文法G</li>
+<li>输出：等价的无左递归的文法</li>
+<li>步骤</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">将文法的非终结符号排序为A1, A2, …, An</span><br><span class="line">for i = 1 to n do &#123;</span><br><span class="line">  for j = 1 to i– 1  do &#123;</span><br><span class="line">    将形如Ai→Ajγ的产生式替换为Ai→δ_1γ|δ_2γ|… | δ_kγ，</span><br><span class="line">    其中Aj→δ1|δ2| … |δk是以Aj为左部的所有产生式</span><br><span class="line">  &#125;</span><br><span class="line">  消除Ai的立即左递归</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">S -&gt; Aa|b     A-&gt;Ac|Sd|ε</span><br><span class="line"></span><br><span class="line">A1 = S  A2 = A</span><br><span class="line">[i,j] = [1,1] </span><br><span class="line">  不运行</span><br><span class="line">[i,j] = [2,1]</span><br><span class="line">  A-&gt;Sd替换，将S-&gt;Aa|b带进A的产生式，变为</span><br><span class="line">  A-&gt;Ac|Aad|bd|ε</span><br><span class="line">消除A的立即左递归</span><br><span class="line">  A-&gt;bdA&#x27; | εA&#x27;</span><br><span class="line">  A&#x27;-&gt;cA&#x27; | adA&#x27; | ε</span><br></pre></td></tr></table></figure>
+
+<h3 id="提取公因子的文法变换"><a href="#提取公因子的文法变换" class="headerlink" title="提取公因子的文法变换"></a>提取公因子的文法变换</h3><p>对于每个非终结符号A，找出它的两个或者多个可选产生式体之间的<strong>最长公共前缀</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">A -&gt; αβ1 | αβ2 | ... | αβn | γ2</span><br><span class="line">变为</span><br><span class="line">A -&gt; αA&#x27; | γ</span><br><span class="line">A&#x27; -&gt; β1 | β2 | ... | βn</span><br><span class="line">其中γ是不以α开头的产生式体</span><br></pre></td></tr></table></figure>
+
+<h2 id="自顶向下的语法分析"><a href="#自顶向下的语法分析" class="headerlink" title="自顶向下的语法分析"></a>自顶向下的语法分析</h2><ul>
+<li><strong>概念</strong>：从分析树的根结点开始，按照<strong>先根次序</strong>，深度优先地创建各个结点，对应于<strong>最左推导</strong></li>
+<li><strong>基本思想</strong>：预测分析法——从开始符号推导出输入字符串；每次为最左边的非终结符选择适当的产生式</li>
+<li>实现一：递归下降的语法分析</li>
+<li>实现二（实际上进行了优化）：LL(1)文法</li>
+</ul>
+<h3 id="递归下降的语法分析"><a href="#递归下降的语法分析" class="headerlink" title="递归下降的语法分析"></a>递归下降的语法分析</h3><ul>
+<li>每个非终结符号对应一个<strong>过程</strong>（其实就是函数，并且是递归调用），该过程负责扫描非终结符号对应<strong>结构</strong></li>
+<li>从<strong>开始符号对应的过程</strong>开始，扫描完整个输入串时宣布分析成功完成</li>
+</ul>
+<h4 id="过程伪代码"><a href="#过程伪代码" class="headerlink" title="过程伪代码"></a>过程伪代码</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">A</span><span class="params">()</span> &#123;</span><br><span class="line">  选择一个A产生式，比如这里选A-&gt;X1X2...Xk;</span><br><span class="line">  <span class="keyword">for</span> (i = <span class="number">1</span> to k) &#123;</span><br><span class="line">    <span class="keyword">if</span> (Xi 是非终结符号) &#123;</span><br><span class="line">      调用过程Xi();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (Xi 等于当前输入符号 a) &#123;</span><br><span class="line">      读入下一个输入符号</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      发生错误，这里进行回溯，回溯是在A中重新选择一个产生式</span><br><span class="line">      如果没有下一个产生式可选，那么同样报告错误</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="递归下降分析技术的回溯"><a href="#递归下降分析技术的回溯" class="headerlink" title="递归下降分析技术的回溯"></a><strong>递归下降分析技术的回溯</strong></h4><ul>
+<li>递归下降回溯的例子</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">文法: S-&gt;cAd A-&gt;ab|a 输入: cad</span><br><span class="line">步骤</span><br><span class="line">  调用函数S，选择唯一产生式 S-&gt;cAd</span><br><span class="line">  输入c与句型c匹配，继续调用A</span><br><span class="line">  调用A，先选A-&gt;ab，a匹配，b与输入d不匹配</span><br><span class="line">  回溯至调用A，选择A-&gt;a，a与输入的a相匹配，A调用结束返回至S调用</span><br><span class="line">  S-&gt;cAd中最后的d与下一个输入d匹配，结束</span><br><span class="line">因此cad是S的句子</span><br></pre></td></tr></table></figure>
+<ul>
+<li>可以看见的是回溯分析具有大量的重复工作，因此需要优化</li>
+</ul>
+<h3 id="LL-1-文法"><a href="#LL-1-文法" class="headerlink" title="LL(1)文法"></a>LL(1)文法</h3><h4 id="FIRST-A-FOLLOW-A-的定义"><a href="#FIRST-A-FOLLOW-A-的定义" class="headerlink" title="FIRST(A), FOLLOW(A)的定义"></a>FIRST(A), FOLLOW(A)的定义</h4><ul>
+<li>FIRST(A)：$A\Rightarrow^* \alpha$，其中$\alpha$是以终结符号开始的串，first(A)包含$\alpha$的第一个终结符号<ul>
+<li>如果$A\Rightarrow^* \epsilon$，那么ε也在FIRST(A)中</li>
+<li>FIRST函数的意义：<ul>
+<li>A产生式<code>A-&gt;α|β</code>，且FIRST(α)∩FIRST(β) &#x3D; ∅（这里是不是就是提取公因式）</li>
+<li>既然无相交，那么就可以根据下一个输入符号选择产生式，而不用回溯</li>
+<li>这就是预测分析</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="LL-1-文法的定义（特征）"><a href="#LL-1-文法的定义（特征）" class="headerlink" title="LL(1)文法的定义（特征）"></a>LL(1)文法的定义（特征）</h4><h4 id="预测分析表构造算法"><a href="#预测分析表构造算法" class="headerlink" title="预测分析表构造算法"></a>预测分析表构造算法</h4><h4 id="LL-1-文法的递归下降分析"><a href="#LL-1-文法的递归下降分析" class="headerlink" title="LL(1)文法的递归下降分析"></a>LL(1)文法的递归下降分析</h4><ul>
+<li>不用回溯了</li>
+</ul>
+<h4 id="预测分析算法"><a href="#预测分析算法" class="headerlink" title="预测分析算法"></a><strong>预测分析算法</strong></h4>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://jaderest.github.io/2025/02/24/CS-Compiler-notes-Chap4/" data-id="cm7u3mfxk000amkyl6fe242oi" data-title="编译原理Chap4_语法分析" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/notes/" rel="tag">notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">词法分析</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2025/02/20/CS-BigData-notes-Chap1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">大数据Chap1_并行计算</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/">Diary</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PFPL-notes/">PFPL notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hello-World/" rel="tag">Hello World</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PFPL/" rel="tag">PFPL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Programming-Language/" rel="tag">Programming Language</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Robert-Harper/" rel="tag">Robert Harper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/notes/" rel="tag">notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag">并行计算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">词法分析</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Hello-World/" style="font-size: 10px;">Hello World</a> <a href="/tags/PFPL/" style="font-size: 10px;">PFPL</a> <a href="/tags/Programming-Language/" style="font-size: 10px;">Programming Language</a> <a href="/tags/Robert-Harper/" style="font-size: 10px;">Robert Harper</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/notes/" style="font-size: 20px;">notes</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 10px;">大数据</a> <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" style="font-size: 10px;">并行计算</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 15px;">编译原理</a> <a href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" style="font-size: 15px;">词法分析</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">February 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/02/24/CS-Compiler-notes-Chap4/">编译原理Chap4_语法分析</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/20/CS-BigData-notes-Chap1/">大数据Chap1_并行计算</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/19/CS-Compiler-notes-Chap3/">编译原理Chap3_词法分析</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/17/PFPL-notes/">PFPL_notes</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/17/Hello-world/">Hello World!</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 Jaderest<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
