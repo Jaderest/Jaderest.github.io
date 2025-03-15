@@ -6,20 +6,22 @@
   
   <title>编译原理Chap4_语法分析 | Jaderest</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="目录 目录 概念性内容 上下文无关文法   设计文法 二义性的消除 立即左递归的消除 通用的左递归消除 提取公因子的文法变换   自顶向下的语法分析 递归下降的语法分析 过程伪代码 递归下降分析技术的回溯   LL(1)文法 FIRST(A), FOLLOW(A)的定义 LL(1)文法的定义（特征） 预测分析表构造算法 LL(1)文法的递归下降分析 预测分析算法">
+  <meta name="description" content="目录 目录 概念性内容 上下文无关文法   设计文法 二义性的消除 立即左递归的消除 通用的左递归消除 提取公因子的文法变换   自顶向下的语法分析 递归下降的语法分析 过程伪代码 递归下降分析技术的回溯   LL(1)文法 FIRST(A), FOLLOW(A)的定义、计算 LL(1)文法的定义（特征） 预测分析表构造算法 LL(1)文法的递归下降分析 预测分析算法     自底向上的语法分析">
 <meta property="og:type" content="article">
 <meta property="og:title" content="编译原理Chap4_语法分析">
 <meta property="og:url" content="http://jaderest.github.io/2025/02/24/CS-Compiler-notes-Chap4/index.html">
 <meta property="og:site_name" content="Jaderest">
-<meta property="og:description" content="目录 目录 概念性内容 上下文无关文法   设计文法 二义性的消除 立即左递归的消除 通用的左递归消除 提取公因子的文法变换   自顶向下的语法分析 递归下降的语法分析 过程伪代码 递归下降分析技术的回溯   LL(1)文法 FIRST(A), FOLLOW(A)的定义 LL(1)文法的定义（特征） 预测分析表构造算法 LL(1)文法的递归下降分析 预测分析算法">
+<meta property="og:description" content="目录 目录 概念性内容 上下文无关文法   设计文法 二义性的消除 立即左递归的消除 通用的左递归消除 提取公因子的文法变换   自顶向下的语法分析 递归下降的语法分析 过程伪代码 递归下降分析技术的回溯   LL(1)文法 FIRST(A), FOLLOW(A)的定义、计算 LL(1)文法的定义（特征） 预测分析表构造算法 LL(1)文法的递归下降分析 预测分析算法     自底向上的语法分析">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://jaderest.github.io/CS-Compiler-notes-Chap4/4-1.png">
 <meta property="article:published_time" content="2025-02-24T02:03:58.000Z">
-<meta property="article:modified_time" content="2025-03-04T06:19:05.782Z">
+<meta property="article:modified_time" content="2025-03-15T14:45:47.111Z">
 <meta property="article:author" content="Jaderest">
 <meta property="article:tag" content="notes">
 <meta property="article:tag" content="编译原理">
-<meta property="article:tag" content="词法分析">
+<meta property="article:tag" content="语法分析">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jaderest.github.io/CS-Compiler-notes-Chap4/4-1.png">
   
     <link rel="alternate" href="/atom.xml" title="Jaderest" type="application/atom+xml">
   
@@ -126,11 +128,29 @@
 </ul>
 </li>
 <li><a href="#ll1%E6%96%87%E6%B3%95">LL(1)文法</a><ul>
-<li><a href="#firsta-followa%E7%9A%84%E5%AE%9A%E4%B9%89">FIRST(A), FOLLOW(A)的定义</a></li>
+<li><a href="#firsta-followa%E7%9A%84%E5%AE%9A%E4%B9%89%E8%AE%A1%E7%AE%97">FIRST(A), FOLLOW(A)的定义、计算</a></li>
 <li><a href="#ll1%E6%96%87%E6%B3%95%E7%9A%84%E5%AE%9A%E4%B9%89%E7%89%B9%E5%BE%81">LL(1)文法的定义（特征）</a></li>
 <li><a href="#%E9%A2%84%E6%B5%8B%E5%88%86%E6%9E%90%E8%A1%A8%E6%9E%84%E9%80%A0%E7%AE%97%E6%B3%95">预测分析表构造算法</a></li>
 <li><a href="#ll1%E6%96%87%E6%B3%95%E7%9A%84%E9%80%92%E5%BD%92%E4%B8%8B%E9%99%8D%E5%88%86%E6%9E%90">LL(1)文法的递归下降分析</a></li>
 <li><a href="#%E9%A2%84%E6%B5%8B%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><strong>预测分析算法</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9A%84%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90">自底向上的语法分析</a><ul>
+<li><a href="#%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5">语法分析基本概念</a><ul>
+<li><a href="#%E5%8F%B6%E5%AD%90">叶子</a></li>
+<li><a href="#%E7%A7%BB%E5%85%A5-%E8%A7%84%E7%BA%A6shift-reduce%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E7%9A%84%E9%80%9A%E7%94%A8%E6%A1%86%E6%9E%B6">移入-规约(shift-reduce)：自底向上语法分析的通用框架</a></li>
+<li><a href="#%E5%8F%A5%E6%9F%84">句柄</a></li>
+<li><a href="#%E7%A7%BB%E5%85%A5-%E8%A7%84%E7%BA%A6%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF">移入-规约分析技术</a></li>
+<li><a href="#%E7%A7%BB%E5%85%A5%E8%A7%84%E7%BA%A6%E6%8E%A5%E5%8F%97%E6%8A%A5%E9%94%99">移入、规约、接受、报错</a></li>
+</ul>
+</li>
+<li><a href="#lrk-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E6%8A%80%E6%9C%AF">LR(k) 语法分析技术</a><ul>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5">基本概念</a></li>
+<li><a href="#closurei%E7%9A%84%E6%9E%84%E9%80%A0%E7%AE%97%E6%B3%95">CLOSURE(I)的构造算法</a></li>
+<li><a href="#%E6%B1%82lr0%E9%A1%B9%E9%9B%86%E8%A7%84%E8%8C%83%E6%97%8F%E7%9A%84%E7%AE%97%E6%B3%95%E6%9E%84%E9%80%A0lr0%E8%87%AA%E5%8A%A8%E6%9C%BA">求LR(0)项集规范族的算法&amp;构造LR(0)自动机</a></li>
+<li><a href="#lr0%E8%87%AA%E5%8A%A8%E6%9C%BA%E7%9A%84%E4%BD%9C%E7%94%A8">LR(0)自动机的作用</a></li>
 </ul>
 </li>
 </ul>
@@ -171,7 +191,7 @@
 </li>
 <li><p>句型&#x2F;句子&#x2F;语言</p>
 <ul>
-<li>句型<ul>
+<li><strong>句型</strong><ul>
 <li>如果$S \Rightarrow^* \alpha$，则称$\alpha$是$S$的一个句型</li>
 <li>可能包含非终结符号，也可能包含终结符，也可以是空串</li>
 </ul>
@@ -228,45 +248,302 @@
 <li>每个非终结符号对应一个<strong>过程</strong>（其实就是函数，并且是递归调用），该过程负责扫描非终结符号对应<strong>结构</strong></li>
 <li>从<strong>开始符号对应的过程</strong>开始，扫描完整个输入串时宣布分析成功完成</li>
 </ul>
-<h4 id="过程伪代码"><a href="#过程伪代码" class="headerlink" title="过程伪代码"></a>过程伪代码</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">A</span><span class="params">()</span> &#123;</span><br><span class="line">  选择一个A产生式，比如这里选A-&gt;X1X2...Xk;</span><br><span class="line">  <span class="keyword">for</span> (i = <span class="number">1</span> to k) &#123;</span><br><span class="line">    <span class="keyword">if</span> (Xi 是非终结符号) &#123;</span><br><span class="line">      调用过程Xi();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (Xi 等于当前输入符号 a) &#123;</span><br><span class="line">      读入下一个输入符号</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      发生错误，这里进行回溯，回溯是在A中重新选择一个产生式</span><br><span class="line">      如果没有下一个产生式可选，那么同样报告错误</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<h4 id="过程伪代码"><a href="#过程伪代码" class="headerlink" title="过程伪代码"></a>过程伪代码</h4><ul>
+<li><img src="/CS-Compiler-notes-Chap4/4-1.png" alt="递归下降的语法分析"></li>
+</ul>
 <h4 id="递归下降分析技术的回溯"><a href="#递归下降分析技术的回溯" class="headerlink" title="递归下降分析技术的回溯"></a><strong>递归下降分析技术的回溯</strong></h4><ul>
-<li>递归下降回溯的例子</li>
+<li><p><strong>回溯需要区别于dfs</strong>，回溯与dfs并不相同</p>
+</li>
+<li><p>如果无法确定<strong>唯一可能</strong>的产生式，那么分析过程就产生<strong>回溯</strong></p>
+<ul>
+<li>在第1行保存当前的扫描指针，并把7&#x2F;4行（非终结&#x2F;不匹配时）的行为改成<ul>
+<li>回退到保存的扫描指针，并goto 1），选择下一个产生式</li>
+<li>如果没有下一个产生式可选，则报告错误</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>递归下降回溯的例子</p>
+</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">文法: S-&gt;cAd A-&gt;ab|a 输入: cad</span><br><span class="line">步骤</span><br><span class="line">  调用函数S，选择唯一产生式 S-&gt;cAd</span><br><span class="line">  输入c与句型c匹配，继续调用A</span><br><span class="line">  调用A，先选A-&gt;ab，a匹配，b与输入d不匹配</span><br><span class="line">  回溯至调用A，选择A-&gt;a，a与输入的a相匹配，A调用结束返回至S调用</span><br><span class="line">  S-&gt;cAd中最后的d与下一个输入d匹配，结束</span><br><span class="line">因此cad是S的句子</span><br></pre></td></tr></table></figure>
 <ul>
 <li>可以看见的是回溯分析具有大量的重复工作，因此需要优化</li>
+<li>同时，回溯并不同于dfs，回溯可能会<strong>跳过一些分支</strong></li>
 </ul>
-<h3 id="LL-1-文法"><a href="#LL-1-文法" class="headerlink" title="LL(1)文法"></a>LL(1)文法</h3><h4 id="FIRST-A-FOLLOW-A-的定义"><a href="#FIRST-A-FOLLOW-A-的定义" class="headerlink" title="FIRST(A), FOLLOW(A)的定义"></a>FIRST(A), FOLLOW(A)的定义</h4><ul>
-<li>FIRST(A)：$A\Rightarrow^* \alpha$，其中$\alpha$是以终结符号开始的串，first(A)包含$\alpha$的第一个终结符号<ul>
-<li>如果$A\Rightarrow^* \epsilon$，那么ε也在FIRST(A)中</li>
-<li>FIRST函数的意义：<ul>
-<li>A产生式<code>A-&gt;α|β</code>，且FIRST(α)∩FIRST(β) &#x3D; ∅（这里是不是就是提取公因式）</li>
-<li>既然无相交，那么就可以根据下一个输入符号选择产生式，而不用回溯</li>
-<li>这就是预测分析</li>
+<hr>
+<p>有一道非常好的例题</p>
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;S-&gt;aSa|aa，能够识别aa, aaaa, aaaaaaaa，但是不能识别aaaaaa</span><br></pre></td></tr></table></figure></blockquote>
+<h3 id="LL-1-文法"><a href="#LL-1-文法" class="headerlink" title="LL(1)文法"></a>LL(1)文法</h3><h4 id="FIRST-A-FOLLOW-A-的定义、计算"><a href="#FIRST-A-FOLLOW-A-的定义、计算" class="headerlink" title="FIRST(A), FOLLOW(A)的定义、计算"></a>FIRST(A), FOLLOW(A)的定义、计算</h4><ul>
+<li>FIRST(A)：可从A推导得到<strong>串</strong>（由非终结符组成）的首符号的集合<ul>
+<li>计算FIRST(X)<ul>
+<li>如果X是终结符，则FIRST(X) &#x3D; {X}</li>
+<li>如果X是非终结符，且X-&gt;γ1γ2…γk是产生式<ul>
+<li>如果a在FIRST(γi)中，且FIRST(γ1)~FIRST(γi-1)都包含ε，则a在FIRST(X)中</li>
+<li>如果ε在FIRST(γ1)~FIRST(γk)中，则ε在FIRST(X)中</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>计算FIRST(X1X2…)<ul>
+<li>加入所有FIRST(X1)中非ε元素</li>
+<li>如果ε在FIRST(X1)中，则加入FIRST(X2)中非ε元素，以此类推</li>
+<li>如果ε在FIRST(X1)~FIRST(Xk)中，则加入ε</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>FOLLOW(A)：<strong>可能</strong>在某些句型中紧跟在A右边的终结符的结合<ul>
+<li>FOLLOW的算法（它同时计算整个文法中所有的非终结符的FOLLOW）</li>
+<li>右端结束标记$加入FOLLOW(S) （S是开始符号，表明这个后面可以接结束）</li>
+<li>按如下两条规则，直到所有FOLLOW不再发生改变<ul>
+<li>如果存在产生式A-&gt;αBβ，那么FIRST(β)中的所有非ε元素都加入FOLLOW(B)</li>
+<li>如果存在产生式A-&gt;αB，或者A-&gt;αBβ且β-&gt;ε，那么FOLLOW(A)中的所有元素都加入FOLLOW(B)</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-<h4 id="LL-1-文法的定义（特征）"><a href="#LL-1-文法的定义（特征）" class="headerlink" title="LL(1)文法的定义（特征）"></a>LL(1)文法的定义（特征）</h4><h4 id="预测分析表构造算法"><a href="#预测分析表构造算法" class="headerlink" title="预测分析表构造算法"></a>预测分析表构造算法</h4><h4 id="LL-1-文法的递归下降分析"><a href="#LL-1-文法的递归下降分析" class="headerlink" title="LL(1)文法的递归下降分析"></a>LL(1)文法的递归下降分析</h4><ul>
+<h4 id="LL-1-文法的定义（特征）"><a href="#LL-1-文法的定义（特征）" class="headerlink" title="LL(1)文法的定义（特征）"></a>LL(1)文法的定义（特征）</h4><ul>
+<li>首先它是上下问无关文法</li>
+<li>对于任意两个产生式A-&gt;a|b，都有FIRST(a)∩FIRST(b) &#x3D; ∅<ul>
+<li>已经没有公因式</li>
+<li>同时也不可能两个都能推导出ε</li>
+</ul>
+</li>
+<li>如果ε属于FIRST(b)，那么FIRST(a)∩FOLLOW(A) &#x3D; ∅ （反之亦然）<ul>
+<li>保证预测分析表中的每个格子最多只有一个产生式</li>
+</ul>
+</li>
+</ul>
+<h4 id="预测分析表构造算法"><a href="#预测分析表构造算法" class="headerlink" title="预测分析表构造算法"></a>预测分析表构造算法</h4><h4 id="LL-1-文法的递归下降分析"><a href="#LL-1-文法的递归下降分析" class="headerlink" title="LL(1)文法的递归下降分析"></a>LL(1)文法的递归下降分析</h4><ul>
 <li>不用回溯了</li>
 </ul>
-<h4 id="预测分析算法"><a href="#预测分析算法" class="headerlink" title="预测分析算法"></a><strong>预测分析算法</strong></h4>
+<h4 id="预测分析算法"><a href="#预测分析算法" class="headerlink" title="预测分析算法"></a><strong>预测分析算法</strong></h4><h2 id="自底向上的语法分析"><a href="#自底向上的语法分析" class="headerlink" title="自底向上的语法分析"></a>自底向上的语法分析</h2><h3 id="语法分析基本概念"><a href="#语法分析基本概念" class="headerlink" title="语法分析基本概念"></a>语法分析基本概念</h3><h4 id="叶子"><a href="#叶子" class="headerlink" title="叶子"></a>叶子</h4><h4 id="移入-规约-shift-reduce-：自底向上语法分析的通用框架"><a href="#移入-规约-shift-reduce-：自底向上语法分析的通用框架" class="headerlink" title="移入-规约(shift-reduce)：自底向上语法分析的通用框架"></a>移入-规约(shift-reduce)：自底向上语法分析的通用框架</h4><ul>
+<li>移入：将下一个输入符号移到栈顶</li>
+<li>规约：用产生式右部替换栈顶的一个或多个符号</li>
+</ul>
+<h4 id="句柄"><a href="#句柄" class="headerlink" title="句柄"></a>句柄</h4><ul>
+<li>如果 $S\Rightarrow^* \alpha A w \Rightarrow \alpha \beta w$，则称$\beta$是$A -&gt; \beta$的一个句柄</li>
+<li>直观理解：句柄是最右句型（最右推导过程中的句型）中和某个产生式体相匹配的子串，对它的规约代表了该最右句型的最右推导的<strong>最后一步</strong><ul>
+<li>在一个最右句型中，句柄右边只有终结符号</li>
+</ul>
+<p style="color:red"> 如下是一组最右句型，可以看到这里句柄逐渐往右走，直到整个最右句型为句柄 </p>
+
+<table>
+<thead>
+<tr>
+<th>最右句型</th>
+<th>句柄</th>
+<th>规约用的产生式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id1*id2</td>
+<td>id1</td>
+<td>F-&gt;id</td>
+</tr>
+<tr>
+<td>F*id2</td>
+<td>F</td>
+<td>T-&gt;F</td>
+</tr>
+<tr>
+<td>T*id2</td>
+<td>id2</td>
+<td>F-&gt;id</td>
+</tr>
+<tr>
+<td>T*F</td>
+<td>T*F</td>
+<td>E-&gt;T*F</td>
+</tr>
+<tr>
+<td>E</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<ul>
+<li>如果文法无二义性，那么每个句型有且只有一个句柄（等价于只有一个最右推导的意思）</li>
+</ul>
+</li>
+</ul>
+<h4 id="移入-规约分析技术"><a href="#移入-规约分析技术" class="headerlink" title="移入-规约分析技术"></a>移入-规约分析技术</h4><ul>
+<li><strong>栈</strong> 保存 <strong>规约&#x2F;扫描</strong> <strong>移入</strong> 的文法符号</li>
+<li>栈中符号（从底往上看）和待扫描的符号 组成一个<strong>最右句型</strong>（回忆PDA）</li>
+<li>开始时刻：栈只包含$，输入为w$</li>
+<li>结束时刻（分析成功）：栈中为S$，输入为$</li>
+<li>过程中：不断 <strong>移入</strong> 符号，并在识别到 <strong>句柄</strong> 时 <strong>规约</strong>，直到结束时刻</li>
+<li><strong>句柄总是在栈顶</strong>，考虑最右推导两个连续步骤的两种情况<ul>
+<li>$S\Rightarrow^* \alpha Az \Rightarrow \alpha \beta Byz \Rightarrow \alpha \beta \gamma yz$<ul>
+<li>规约一次之后句柄为 $\beta By$</li>
+<li>这里连续写两步是为了告诉我们谁是句柄</li>
+</ul>
+</li>
+<li>$S\Rightarrow^* \alpha BxAz \Rightarrow \alpha Bxyz \Rightarrow \alpha \gamma xyz$<ul>
+<li>A首先被展开，产生式体中只包含终结符号，下一个最右非终结符号B于y左侧</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="移入、规约、接受、报错"><a href="#移入、规约、接受、报错" class="headerlink" title="移入、规约、接受、报错"></a>移入、规约、接受、报错</h4><ul>
+<li>移入（shift）：将下一个输入符号移到栈顶</li>
+<li>规约（reduce）：句柄规约为相应的非终结符号<ul>
+<li><strong>句柄</strong>总是在<strong>栈顶</strong></li>
+<li>操作时弹出<strong>句柄</strong>，压入被规约到的<strong>非终结符号</strong></li>
+</ul>
+</li>
+<li>接受（accept）：分析成功，栈中只有S$</li>
+<li>报错（error）：发现语法错误，调用<strong>错误恢复子程序</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>栈</th>
+<th>输入</th>
+<th>动作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$</td>
+<td>id1*id2$</td>
+<td>移入</td>
+</tr>
+<tr>
+<td>$ id1</td>
+<td>*id2$</td>
+<td>按照F-&gt;id规约</td>
+</tr>
+<tr>
+<td>$ F</td>
+<td>*id2$</td>
+<td>按照T-&gt;F规约</td>
+</tr>
+<tr>
+<td>$ T</td>
+<td>*id2$</td>
+<td>移入</td>
+</tr>
+<tr>
+<td>$ T *</td>
+<td>id2$</td>
+<td>移入</td>
+</tr>
+<tr>
+<td>$ T * id2</td>
+<td>$</td>
+<td>按照F-&gt;id规约</td>
+</tr>
+<tr>
+<td>$ T * F</td>
+<td>$</td>
+<td>按照T-&gt;T*F规约</td>
+</tr>
+<tr>
+<td>$ T</td>
+<td>$</td>
+<td>按照E-&gt;T规约</td>
+</tr>
+<tr>
+<td>$ E</td>
+<td>$</td>
+<td>接受</td>
+</tr>
+</tbody></table>
+<h3 id="LR-k-语法分析技术"><a href="#LR-k-语法分析技术" class="headerlink" title="LR(k) 语法分析技术"></a>LR(k) 语法分析技术</h3><h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><ul>
+<li><p>LR(k)的语法分析概念</p>
+<ul>
+<li>L：最左扫描，R：反向构造出最右推导</li>
+<li>k：最多<strong>向前看</strong>k个符号</li>
+</ul>
+</li>
+<li><p>LR(0)项</p>
+<ul>
+<li>项(item)：文法的 一个产生式 加上 其中某处的一个点<ul>
+<li>A-&gt;·XYZ A-&gt;X·YZ A-&gt;XY·Z A-&gt;XYZ·</li>
+<li>A-&gt;ε 仅有一个项 A-&gt;·</li>
+</ul>
+</li>
+<li>直观含义：<ul>
+<li><strong>项</strong> A-&gt;α·β表示：已经扫描&#x2F;规约到了α，接下来期望在接下来的输入中 <strong>扫描&#x2F;规约</strong> 得到 β，然后把αβ规约为A</li>
+<li>如果β为空，表示我们可以把α规约为A</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>LR(0)项集规范族的构造</p>
+<ul>
+<li>增广文法：文法G的增广文法G’是增加新开始符号S’，并加入产生式S’-&gt;S，<strong>按照S’-&gt;S进行规约实际上就表示已经将输入符号串规约成开始符号</strong></li>
+<li>项集：项的集合，语法分析中某个状态的所有可能性<ul>
+<li>举个例子，文法S-&gt;AB A-&gt;a B-&gt;b，有初始项集I {S-&gt;·AB}，所以这里<strong>项集就是项的集合</strong></li>
+</ul>
+</li>
+<li>项集闭包CLOSURE：从一个项集I构造得到的项集，构造算法后续说明</li>
+<li>GOTO函数：I是一个项集，X是一个文法符号，GOTO(I,X)是I中所有 形如[A-&gt;α·Xβ]的项 所<strong>对应</strong>的项[A-&gt;αX·β]的集合 的闭包 ？草泥马说中文<ul>
+<li>对应：就是把点往后移一格</li>
+<li>e.g. I &#x3D; {[E’-&gt;E·], [E-&gt;E·+T]} GOTO(I,+)计算如下<ul>
+<li>I中仅有一个项的点后面跟着子串，对应的项为[E-&gt;E+·T]</li>
+<li>CLOSURE({[E-&gt;E+·T]}) &#x3D; {[E-&gt;E+·T], [T-&gt;·T*F], [T-&gt;·F], [F-&gt;·(E)], [F-&gt;·id]}</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="CLOSURE-I-的构造算法"><a href="#CLOSURE-I-的构造算法" class="headerlink" title="CLOSURE(I)的构造算法"></a>CLOSURE(I)的构造算法</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">SetOfItems CLOSURE(I) &#123;</span><br><span class="line">  J = I</span><br><span class="line">  repeat &#123;</span><br><span class="line">    for (J中的每个[A-&gt;α·Bβ]) &#123;</span><br><span class="line">      for (每个产生式B-&gt;γ) &#123;</span><br><span class="line">        if [B-&gt;·γ] is not in J &#123;</span><br><span class="line">          add [B-&gt;·γ] to J</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; until J does not change</span><br><span class="line">  return J</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>比如增广文法E’-&gt;E E-&gt;E+T|T T-&gt;T*F|F F-&gt;(E)|id</li>
+<li>项集{ [E’ -&gt; ·E] }的闭包<ul>
+<li>[E’-&gt;·E]</li>
+<li>[E-&gt;·E+T] [E-&gt;·T]在闭包中</li>
+<li>[T-&gt;·T*F] [T-&gt;·F]也在</li>
+<li>[F-&gt;·(E)] [F-&gt;·id]也在</li>
+</ul>
+</li>
+</ul>
+<h4 id="求LR-0-项集规范族的算法-构造LR-0-自动机"><a href="#求LR-0-项集规范族的算法-构造LR-0-自动机" class="headerlink" title="求LR(0)项集规范族的算法&amp;构造LR(0)自动机"></a>求LR(0)项集规范族的算法&amp;构造LR(0)自动机</h4><ul>
+<li>项集规范族（也是项集的集合）</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">void items(G&#x27;) &#123;</span><br><span class="line">  C = &#123;CLOSURE(&#123;[S&#x27;-&gt;·S]&#125;)&#125;;</span><br><span class="line">  repeat</span><br><span class="line">    for (C中的每个项集I)</span><br><span class="line">      for (G的每个文法符号X)</span><br><span class="line">        if(GOTO(I,X)非空且不在C中)</span><br><span class="line">          GOTO(I,X)加入C中</span><br><span class="line">  until 某一轮无新项集加入C</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p style="color:red">项集规范族可以接收文法G'中所有终结符&非终结符</p>
+
+<ul>
+<li>自动机构造方法<ul>
+<li>基于LR(0)项集规范族可以构造LR(0)自动机</li>
+<li>LR(0)项集族中每个项集对应于LR(0)自动机的一个状态</li>
+<li><strong>状态转换</strong>：如果GOTO(I,X)&#x3D;J，则从I到J有一个标号为X的转换</li>
+<li><strong>开始状态</strong>：CLOSURE{[S’-&gt;·S]}对应的项集</li>
+</ul>
+</li>
+</ul>
+<h4 id="LR-0-自动机的作用"><a href="#LR-0-自动机的作用" class="headerlink" title="LR(0)自动机的作用"></a>LR(0)自动机的作用</h4>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://jaderest.github.io/2025/02/24/CS-Compiler-notes-Chap4/" data-id="cm7u3mfxk000amkyl6fe242oi" data-title="编译原理Chap4_语法分析" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://jaderest.github.io/2025/02/24/CS-Compiler-notes-Chap4/" data-id="cm8abkf8c0012rsyl0vnn41bb" data-title="编译原理Chap4_语法分析" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/notes/" rel="tag">notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">词法分析</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/notes/" rel="tag">notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">语法分析</a></li></ul>
 
     </footer>
   </div>
   
     
 <nav id="article-nav">
+  
+    <a href="/2025/03/10/CS-SQL-sutong/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          数据库&amp;SQL速通
+        
+      </div>
+    </a>
   
   
     <a href="/2025/02/20/CS-BigData-notes-Chap1/" id="article-nav-older" class="article-nav-link-wrap">
@@ -288,7 +565,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/">Diary</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PFPL-notes/">PFPL notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/">Diary</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PFPL-notes/">PFPL notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></li></ul>
     </div>
   </div>
 
@@ -298,7 +575,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hello-World/" rel="tag">Hello World</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PFPL/" rel="tag">PFPL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Programming-Language/" rel="tag">Programming Language</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Robert-Harper/" rel="tag">Robert Harper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/notes/" rel="tag">notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag">并行计算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">词法分析</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hello-World/" rel="tag">Hello World</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PFPL/" rel="tag">PFPL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Programming-Language/" rel="tag">Programming Language</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Robert-Harper/" rel="tag">Robert Harper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/notes/" rel="tag">notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag">并行计算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">词法分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">语法分析</a></li></ul>
     </div>
   </div>
 
@@ -308,7 +585,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Hello-World/" style="font-size: 10px;">Hello World</a> <a href="/tags/PFPL/" style="font-size: 10px;">PFPL</a> <a href="/tags/Programming-Language/" style="font-size: 10px;">Programming Language</a> <a href="/tags/Robert-Harper/" style="font-size: 10px;">Robert Harper</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/notes/" style="font-size: 20px;">notes</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 10px;">大数据</a> <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" style="font-size: 10px;">并行计算</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 15px;">编译原理</a> <a href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" style="font-size: 15px;">词法分析</a>
+      <a href="/tags/Hello-World/" style="font-size: 10px;">Hello World</a> <a href="/tags/PFPL/" style="font-size: 10px;">PFPL</a> <a href="/tags/Programming-Language/" style="font-size: 10px;">Programming Language</a> <a href="/tags/Robert-Harper/" style="font-size: 10px;">Robert Harper</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/notes/" style="font-size: 20px;">notes</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 10px;">大数据</a> <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" style="font-size: 10px;">并行计算</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 15px;">编译原理</a> <a href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" style="font-size: 10px;">词法分析</a> <a href="/tags/%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/" style="font-size: 10px;">语法分析</a>
     </div>
   </div>
 
@@ -317,7 +594,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">February 2025</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">February 2025</a></li></ul>
     </div>
   </div>
 
@@ -328,6 +605,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2025/03/10/CS-SQL-sutong/">数据库&amp;SQL速通</a>
+          </li>
         
           <li>
             <a href="/2025/02/24/CS-Compiler-notes-Chap4/">编译原理Chap4_语法分析</a>
@@ -343,10 +624,6 @@
         
           <li>
             <a href="/2025/02/17/PFPL-notes/">PFPL_notes</a>
-          </li>
-        
-          <li>
-            <a href="/2025/02/17/Hello-world/">Hello World!</a>
           </li>
         
       </ul>
