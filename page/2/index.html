@@ -81,10 +81,155 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-CS-Compiler-notes-Chap3" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-CS-SSH-notes" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/02/19/CS-Compiler-notes-Chap3/" class="article-date">
-  <time class="dt-published" datetime="2025-02-19T02:37:07.000Z" itemprop="datePublished">2025-02-19</time>
+    <a href="/2025/04/09/CS-SSH-notes/" class="article-date">
+  <time class="dt-published" datetime="2025-04-09T08:58:04.000Z" itemprop="datePublished">2025-04-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/SSH/">SSH</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/04/09/CS-SSH-notes/">SSH协议</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="SSH协议"><a href="#SSH协议" class="headerlink" title="SSH协议"></a>SSH协议</h2><p>Secure Shell，是一种用于安全远程登录和其他网络服务的加密协议</p>
+<h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h3><h4 id="1-连接建立"><a href="#1-连接建立" class="headerlink" title="1. 连接建立"></a>1. 连接建立</h4><ul>
+<li>客户端连接到SSH服务器的指定端口（默认22）</li>
+<li>服务器发送公钥给客户端</li>
+<li>客户端验证服务器的公钥</li>
+<li>客户端和服务器协商加密算法和压缩算法（如AES、RSA等）</li>
+<li>客户端生成一个会话密钥，并用服务器的公钥加密后发送给服务器</li>
+<li>使用会话密钥进行后续通信</li>
+</ul>
+<h4 id="2-用户认证"><a href="#2-用户认证" class="headerlink" title="2. 用户认证"></a>2. 用户认证</h4><ul>
+<li>密码认证<ul>
+<li>客户端发送用户名</li>
+<li>服务器请求密码</li>
+<li>客户端发送加密的密码</li>
+<li>服务器验证密码，返回认证结果</li>
+</ul>
+</li>
+<li>公钥认证<ul>
+<li>客户端发送用户名和公钥</li>
+<li>服务器发送一个随机数</li>
+<li>客户端用私钥加密随机数并发送给服务器</li>
+<li>服务器用公钥验证签名，验证成功后返回认证结果</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-数据传输"><a href="#3-数据传输" class="headerlink" title="3. 数据传输"></a>3. 数据传输</h4><ul>
+<li>身份验证成功后SSH建立一个加密的会话通道<ul>
+<li>远程登录：在远程主机上执行命令</li>
+<li>文件传输：使用SCP或SFTP协议</li>
+<li>端口转发：将本地端口映射到远程主机的端口或反之</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://jaderest.github.io/2025/04/09/CS-SSH-notes/" data-id="cm9mjjt8i002wzsyl1jda76ow" data-title="SSH协议" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSH/" rel="tag">SSH</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/notes/" rel="tag">notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/protocol/" rel="tag">protocol</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-CS-Docker-notes" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/04/09/CS-Docker-notes/" class="article-date">
+  <time class="dt-published" datetime="2025-04-09T02:49:05.000Z" itemprop="datePublished">2025-04-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Docker/">Docker</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/04/09/CS-Docker-notes/">Docker内容整理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#%E7%9B%AE%E5%BD%95">目录</a></li>
+<li><a href="#docker%E6%9E%B6%E6%9E%84">Docker架构</a><ul>
+<li><a href="#docker%E6%9E%B6%E6%9E%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B">Docker架构工作流程</a></li>
+<li><a href="#docker%E5%AE%A2%E6%88%B7%E7%AB%AF">Docker客户端</a></li>
+<li><a href="#docker-daemon">Docker Daemon</a></li>
+<li><a href="#docker%E5%BC%95%E6%93%8Eapi">Docker引擎API</a></li>
+<li><a href="#docker%E5%AE%B9%E5%99%A8">Docker容器</a></li>
+<li><a href="#docker%E9%95%9C%E5%83%8F">Docker镜像</a></li>
+<li><a href="#docker-compose">Docker Compose</a></li>
+<li><a href="#docker-swarm">Docker Swarm</a></li>
+<li><a href="#docker-%E7%BD%91%E7%BB%9Cdocker-networks">Docker 网络（Docker Networks）</a></li>
+<li><a href="#docker-%E5%8D%B7docker-volumes">Docker 卷（Docker Volumes）</a></li>
+<li><a href="#restful%E9%A3%8E%E6%A0%BC"><strong>RESTful</strong>风格</a></li>
+</ul>
+</li>
+<li><a href="#%E5%B8%B8%E7%94%A8docker%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%91%BD%E4%BB%A4">常用Docker客户端命令</a></li>
+<li><a href="#docker%E9%95%9C%E5%83%8F%E6%93%8D%E4%BD%9C">Docker镜像操作</a></li>
+<li><a href="#docker%E5%AE%B9%E5%99%A8%E8%BF%9E%E6%8E%A5">Docker容器连接</a></li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2025/04/09/CS-Docker-notes/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://jaderest.github.io/2025/04/09/CS-Docker-notes/" data-id="cm9mjjt89000qzsyl099rfszc" data-title="Docker内容整理" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/notes/" rel="tag">notes</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-CS-Compiler-notes-Chap5" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/03/31/CS-Compiler-notes-Chap5/" class="article-date">
+  <time class="dt-published" datetime="2025-03-31T14:42:31.000Z" itemprop="datePublished">2025-03-31</time>
 </a>
     
   <div class="article-category">
@@ -99,7 +244,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/02/19/CS-Compiler-notes-Chap3/">编译原理Chap3_词法分析</a>
+      <a class="p-name article-title" href="/2025/03/31/CS-Compiler-notes-Chap5/">编译原理Chap5_语法制导的翻译</a>
     </h1>
   
 
@@ -109,146 +254,52 @@
       
         <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
 <li><a href="#%E7%9B%AE%E5%BD%95">目录</a></li>
-<li><a href="#%E6%A6%82%E5%BF%B5%E6%80%A7%E5%86%85%E5%AE%B9">概念性内容</a><ul>
-<li><a href="#%E8%AF%8D%E6%B3%95%E5%8D%95%E5%85%83%E6%A8%A1%E5%BC%8F%E8%AF%8D%E7%B4%A0">词法单元、模式、词素</a></li>
-<li><a href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F">正则表达式</a></li>
-</ul>
-</li>
-<li><a href="#%E8%AF%8D%E6%B3%95%E5%8D%95%E5%85%83%E7%9A%84%E8%AF%86%E5%88%AB">词法单元的识别</a><ul>
-<li><a href="#%E4%BF%9D%E7%95%99%E5%AD%97%E5%92%8C%E6%A0%87%E8%AF%86%E7%AC%A6%E7%9A%84%E8%AF%86%E5%88%AB">保留字和标识符的识别</a></li>
-<li><a href="#%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8%E7%9A%84%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84">词法分析器的体系结构</a></li>
-<li><a href="#%E5%A4%84%E7%90%86%E5%A4%9A%E4%B8%AA%E6%A8%A1%E5%BC%8F%E7%9A%84%E6%96%B9%E6%B3%95">处理多个模式的方法</a></li>
-</ul>
-</li>
-<li><a href="#%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7%E5%8F%8A%E8%AE%BE%E8%AE%A1">词法分析器生成工具及设计</a><ul>
-<li><a href="#%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7lexflex">词法分析工具Lex&#x2F;Flex</a></li>
-<li><a href="#lex%E6%BA%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BB%93%E6%9E%84">Lex源程序的结构</a></li>
-<li><a href="#%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F">词法分析器的工作方式</a></li>
-<li><a href="#lex%E4%B8%AD%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95">Lex中冲突解决办法</a></li>
-</ul>
-</li>
-<li><a href="#%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA">有穷自动机</a><ul>
-<li><a href="#dfa%E7%9A%84%E6%A8%A1%E6%8B%9F%E8%BF%90%E8%A1%8C">DFA的模拟运行</a></li>
-<li><a href="#nfa%E5%88%B0dfa">NFA到DFA</a></li>
-<li><a href="#re-to-nfa">RE to NFA</a></li>
-</ul>
-</li>
-<li><a href="#%E5%AE%9E%E4%BE%8B%E4%BB%AC">实例们</a><ul>
-<li><a href="#lex%E6%BA%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%AE%9E%E4%BE%8B">Lex源程序的实例</a></li>
+<li><a href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5">基础概念</a><ul>
+<li><a href="#%E8%AF%AD%E6%B3%95%E5%88%B6%E5%AF%BC%E5%AE%9A%E4%B9%89">语法制导定义</a></li>
+<li><a href="#%E8%AF%AD%E6%B3%95%E5%88%B6%E5%AF%BC%E7%BF%BB%E8%AF%91">语法制导翻译</a></li>
+<li><a href="#sdd">SDD</a></li>
+<li><a href="#%E7%BB%BC%E5%90%88%E5%B1%9E%E6%80%A7%E7%BB%A7%E6%89%BF%E5%B1%9E%E6%80%A7">综合属性&amp;继承属性</a></li>
 </ul>
 </li>
 </ul>
-        
-          <p class="article-more-link">
-            <a href="/2025/02/19/CS-Compiler-notes-Chap3/#more">Read More</a>
-          </p>
-        
+<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><h3 id="语法制导定义"><a href="#语法制导定义" class="headerlink" title="语法制导定义"></a>语法制导定义</h3><p>文法符号与某些<strong>属性</strong>相关联，并通过<strong>语义规则</strong>描述如何计算属性的值</p>
+<ul>
+<li>如下例子的作用则是将中缀表达式转化乘后缀表达式，其中的code就是<strong>属性</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E-&gt;E1+T           E.code   =   E1.code || T.code || &#x27;+&#x27;</span><br></pre></td></tr></table></figure>
+
+<h3 id="语法制导翻译"><a href="#语法制导翻译" class="headerlink" title="语法制导翻译"></a>语法制导翻译</h3><p>产生式体加入<strong>语义动作</strong>，并在<strong>适当时候</strong>执行动作</p>
+<h3 id="SDD"><a href="#SDD" class="headerlink" title="SDD"></a>SDD</h3><ul>
+<li>Syntax-Directed Definition 是上下文无关文法和属性&#x2F;规则的结合  <ul>
+<li><strong>属性</strong>和<strong>文法符号</strong>相关联，按需确定各个文法符号需要哪些<strong>属性规则</strong>和<strong>产生式</strong>相关联</li>
+</ul>
+</li>
+<li>文法符号X和属性a，X.a表示分析树中某个标号为X的结点的值<ul>
+<li>分析树结点和它的分支对应一个产生式规则</li>
+<li>语义规则确定了这些结点上属性的取值和计算<blockquote>
+<p>属性按需设置，例如我们需要知道它的类型type，和内存位置place  </p>
+<ul>
+<li>产生式规则：E -&gt; E1 + T<ul>
+<li>假设只有int&#x2F;float两种类型</li>
+<li>E.type &#x3D; if(E1.type &#x3D;&#x3D; T.type) then T.type else float;</li>
+<li>E.place &#x3D; newtemp();  &#x2F;&#x2F; 返回一个新的内存位置</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="综合属性-继承属性"><a href="#综合属性-继承属性" class="headerlink" title="综合属性&amp;继承属性"></a>综合属性&amp;继承属性</h3>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://jaderest.github.io/2025/02/19/CS-Compiler-notes-Chap3/" data-id="cm8abkf860004rsyl9ubk7y3g" data-title="编译原理Chap3_词法分析" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://jaderest.github.io/2025/03/31/CS-Compiler-notes-Chap5/" data-id="cm9mjjt86000azsylfsjr24qy" data-title="编译原理Chap5_语法制导的翻译" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/notes/" rel="tag">notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">词法分析</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-PFPL-notes" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/02/17/PFPL-notes/" class="article-date">
-  <time class="dt-published" datetime="2025-02-17T15:44:52.000Z" itemprop="datePublished">2025-02-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PFPL-notes/">PFPL notes</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/02/17/PFPL-notes/">PFPL_notes</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>PL读书会第一本书——Practical Foundations of Programming Languages 的讲座&amp;读书笔记</p>
-        
-          <p class="article-more-link">
-            <a href="/2025/02/17/PFPL-notes/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://jaderest.github.io/2025/02/17/PFPL-notes/" data-id="cm8abkf8e0018rsyl7x0kbsma" data-title="PFPL_notes" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PFPL/" rel="tag">PFPL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Programming-Language/" rel="tag">Programming Language</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Robert-Harper/" rel="tag">Robert Harper</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/02/17/Hello-world/" class="article-date">
-  <time class="dt-published" datetime="2025-02-17T10:07:07.000Z" itemprop="datePublished">2025-02-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Diary/">Diary</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/02/17/Hello-world/">Hello World!</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>记录一下我这个博客搭建的过程！</p>
-        
-          <p class="article-more-link">
-            <a href="/2025/02/17/Hello-world/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://jaderest.github.io/2025/02/17/Hello-world/" data-id="cm8abkf870005rsyl369ehmdr" data-title="Hello World!" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hello-World/" rel="tag">Hello World</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/blog/" rel="tag">blog</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/notes/" rel="tag">notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">语法分析</a></li></ul>
 
     </footer>
   </div>
@@ -262,7 +313,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -273,7 +324,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/">Diary</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PFPL-notes/">PFPL notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Ascend-C/">Ascend C</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/">Diary</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PFPL-notes/">PFPL notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSH/">SSH</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
     </div>
   </div>
 
@@ -283,7 +334,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hello-World/" rel="tag">Hello World</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PFPL/" rel="tag">PFPL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Programming-Language/" rel="tag">Programming Language</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Robert-Harper/" rel="tag">Robert Harper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/notes/" rel="tag">notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag">并行计算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">词法分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">语法分析</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI%E7%AE%97%E5%AD%90%E5%BC%80%E5%8F%91/" rel="tag">AI算子开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ascend-C/" rel="tag">Ascend C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hello-World/" rel="tag">Hello World</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PFPL/" rel="tag">PFPL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Programming-Language/" rel="tag">Programming Language</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Robert-Harper/" rel="tag">Robert Harper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ScatterReduce/" rel="tag">ScatterReduce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/notes/" rel="tag">notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/protocol/" rel="tag">protocol</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AB%E8%82%A1%E6%96%87/" rel="tag">八股文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%8E%E4%B8%BA/" rel="tag">华为</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E4%B9%A0/" rel="tag">实习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag">并行计算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">词法分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">语法分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
     </div>
   </div>
 
@@ -293,7 +344,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Hello-World/" style="font-size: 10px;">Hello World</a> <a href="/tags/PFPL/" style="font-size: 10px;">PFPL</a> <a href="/tags/Programming-Language/" style="font-size: 10px;">Programming Language</a> <a href="/tags/Robert-Harper/" style="font-size: 10px;">Robert Harper</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/notes/" style="font-size: 20px;">notes</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 10px;">大数据</a> <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" style="font-size: 10px;">并行计算</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 15px;">编译原理</a> <a href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" style="font-size: 10px;">词法分析</a> <a href="/tags/%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/" style="font-size: 10px;">语法分析</a>
+      <a href="/tags/AI%E7%AE%97%E5%AD%90%E5%BC%80%E5%8F%91/" style="font-size: 16.67px;">AI算子开发</a> <a href="/tags/Ascend-C/" style="font-size: 16.67px;">Ascend C</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Hello-World/" style="font-size: 10px;">Hello World</a> <a href="/tags/PFPL/" style="font-size: 10px;">PFPL</a> <a href="/tags/Programming-Language/" style="font-size: 10px;">Programming Language</a> <a href="/tags/Robert-Harper/" style="font-size: 10px;">Robert Harper</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/ScatterReduce/" style="font-size: 10px;">ScatterReduce</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/notes/" style="font-size: 20px;">notes</a> <a href="/tags/protocol/" style="font-size: 10px;">protocol</a> <a href="/tags/%E5%85%AB%E8%82%A1%E6%96%87/" style="font-size: 16.67px;">八股文</a> <a href="/tags/%E5%8D%8E%E4%B8%BA/" style="font-size: 16.67px;">华为</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 10px;">大数据</a> <a href="/tags/%E5%AE%9E%E4%B9%A0/" style="font-size: 16.67px;">实习</a> <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" style="font-size: 10px;">并行计算</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 13.33px;">数据库</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 16.67px;">编译原理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a> <a href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" style="font-size: 10px;">词法分析</a> <a href="/tags/%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/" style="font-size: 13.33px;">语法分析</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 13.33px;">面试</a>
     </div>
   </div>
 
@@ -302,7 +353,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">February 2025</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/04/">April 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">February 2025</a></li></ul>
     </div>
   </div>
 
@@ -315,23 +366,23 @@
       <ul>
         
           <li>
-            <a href="/2025/03/10/CS-SQL-sutong/">数据库&amp;SQL速通</a>
+            <a href="/2025/04/10/CS-DB-notes/">数据库</a>
           </li>
         
           <li>
-            <a href="/2025/02/24/CS-Compiler-notes-Chap4/">编译原理Chap4_语法分析</a>
+            <a href="/2025/04/10/CS-DesignPattern/">设计模式</a>
           </li>
         
           <li>
-            <a href="/2025/02/20/CS-BigData-notes-Chap1/">大数据Chap1_并行计算</a>
+            <a href="/2025/04/09/CS-ComputerNetwork/">计网八股</a>
           </li>
         
           <li>
-            <a href="/2025/02/19/CS-Compiler-notes-Chap3/">编译原理Chap3_词法分析</a>
+            <a href="/2025/04/09/CS-SSH-notes/">SSH协议</a>
           </li>
         
           <li>
-            <a href="/2025/02/17/PFPL-notes/">PFPL_notes</a>
+            <a href="/2025/04/09/CS-Docker-notes/">Docker内容整理</a>
           </li>
         
       </ul>

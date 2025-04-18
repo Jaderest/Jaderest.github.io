@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Jaderest</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="课堂笔记&amp;自己搓的小项目">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jaderest">
+<meta property="og:url" content="http://jaderest.github.io/page/3/index.html">
+<meta property="og:site_name" content="Jaderest">
+<meta property="og:description" content="课堂笔记&amp;自己搓的小项目">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Jaderest">
+<meta property="article:tag" content="Jaderest">
+<meta property="article:tag" content="CS">
+<meta property="article:tag" content="课堂笔记">
+<meta property="article:tag" content="Blog">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jaderest" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jaderest</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">我的个人博客~</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://jaderest.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-CS-AscendC-ScatterReduce" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/03/22/CS-AscendC-ScatterReduce/" class="article-date">
+  <time class="dt-published" datetime="2025-03-22T13:03:19.000Z" itemprop="datePublished">2025-03-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Ascend-C/">Ascend C</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/03/22/CS-AscendC-ScatterReduce/">ScatterReduce AI算子开发</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#%E7%9B%AE%E5%BD%95">目录</a></li>
+<li><a href="#scatterreduce%E7%AE%97%E5%AD%90%E5%88%86%E6%9E%90">ScatterReduce算子分析</a></li>
+</ul>
+<h2 id="ScatterReduce算子分析"><a href="#ScatterReduce算子分析" class="headerlink" title="ScatterReduce算子分析"></a>ScatterReduce算子分析</h2><ul>
+<li>五个参数<ul>
+<li>dim<ul>
+<li>替换的维度</li>
+</ul>
+</li>
+<li>index <ul>
+<li>索引矩阵，用这个来替换self</li>
+</ul>
+</li>
+<li>src <ul>
+<li>源矩阵，shape和index一样</li>
+</ul>
+</li>
+<li>reduce <ul>
+<li>操作类型</li>
+<li>string类型</li>
+<li>值有：sum, prod, mean, amax, amin</li>
+</ul>
+</li>
+<li>include_self&#x3D;True<ul>
+<li>bool</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>定义</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Classify</th>
+<th>Name</th>
+<th>Type</th>
+<th>TypeRangeAll</th>
+<th>Format</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>INPUT</td>
+<td>self</td>
+<td>Tensor</td>
+<td>fp32, fp16</td>
+<td>ND</td>
+</tr>
+<tr>
+<td>INPUT</td>
+<td>index</td>
+<td>Tensor</td>
+<td>int32</td>
+<td>ND</td>
+</tr>
+<tr>
+<td>INPUT</td>
+<td>src</td>
+<td>Tensor</td>
+<td>fp32, fp16</td>
+<td>ND</td>
+</tr>
+<tr>
+<td>OUTPUT</td>
+<td>y</td>
+<td>Tensor</td>
+<td>fp32, fp16</td>
+<td>ND</td>
+</tr>
+<tr>
+<td>REQUIRED_ATTR</td>
+<td>dim</td>
+<td>int32</td>
+<td>~</td>
+<td>ND</td>
+</tr>
+<tr>
+<td>REQUIRED_ATTR</td>
+<td>reduce</td>
+<td>str</td>
+<td>sum, prod, mean, amax, amin</td>
+<td>ND</td>
+</tr>
+<tr>
+<td>ATTR</td>
+<td>include_self</td>
+<td>bool</td>
+<td>True, False</td>
+<td>ND</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://jaderest.github.io/2025/03/22/CS-AscendC-ScatterReduce/" data-id="cm9mjjt7y0001zsyl7rnd0xtv" data-title="ScatterReduce AI算子开发" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI%E7%AE%97%E5%AD%90%E5%BC%80%E5%8F%91/" rel="tag">AI算子开发</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ascend-C/" rel="tag">Ascend C</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ScatterReduce/" rel="tag">ScatterReduce</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%8E%E4%B8%BA/" rel="tag">华为</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-CS-AscendC-notes-module2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/03/19/CS-AscendC-notes-module2/" class="article-date">
+  <time class="dt-published" datetime="2025-03-19T14:46:14.000Z" itemprop="datePublished">2025-03-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/03/19/CS-AscendC-notes-module2/">CS_AscendC_notes_module2</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://jaderest.github.io/2025/03/19/CS-AscendC-notes-module2/" data-id="cm9mjjt810005zsyl7rp11dkc" data-title="CS_AscendC_notes_module2" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-CS-AscendC-notes-lec1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/03/18/CS-AscendC-notes-lec1/" class="article-date">
+  <time class="dt-published" datetime="2025-03-18T11:05:01.000Z" itemprop="datePublished">2025-03-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Ascend-C/">Ascend C</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/03/18/CS-AscendC-notes-lec1/">CS_AscendC_notes_lec1</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#%E7%9B%AE%E5%BD%95">目录</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%AE%97%E5%AD%90">什么是算子</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AFascend-c%E7%AE%97%E5%AD%90">什么是Ascend C算子</a></li>
+</ul>
+<h2 id="什么是算子"><a href="#什么是算子" class="headerlink" title="什么是算子"></a>什么是算子</h2><p>算子对应网络中层或者节点的计算逻辑（网络中的节点，一个一个模块）<br>算子的数学含义：一个函数空间到函数空间上的映射O：X-&gt;X（理解成一个计算公式）  </p>
+<ul>
+<li>算子名称：同一网络中算子的名称是唯一的</li>
+<li>算子类型：相同类型的算子实现逻辑相同，在一个网络中同一类型的算子可能存在多个（存在足够的泛化能力）</li>
+<li>数据容器（Tensor张量）<ul>
+<li>支持各种形状、各种数据类型，作为输入输出的容器</li>
+<li>名称name：在网络中唯一</li>
+<li>形状shape：(10,) (1024,1024) (i1,i2,i3,…,in)</li>
+<li>数据类型dtype: float32, int8, uint8, int16, int32, int64, uint16, uint32, uint64, bool 同一个张量中的数据类型是一致的</li>
+<li>数据排布格式format：数据的物理排布格式，定义了 解读数据的维度<ul>
+<li>数据如何存储在计算机中</li>
+<li><img src="/image.png" alt="alt text"></li>
+<li>排布方式不同则处理方式不同</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>轴——常见的算子属性<ul>
+<li>[[[1,2],[3,4]],[[5,6],[7,8]]] 3维张量，shape&#x3D;(2,2,2)</li>
+<li>轴axis：张量的维度，从0开始</li>
+<li>轴0：第一个维度的数据，[[1,2],[3,4]]和[[5,6],[7,8]]</li>
+<li>轴1：第二个维度的数据，[1,2]和[3,4]，[5,6]和[7,8]</li>
+<li>轴2：第三个维度的数据，1,2,3,4,5,6,7,8</li>
+<li>轴可以为负数</li>
+</ul>
+</li>
+</ul>
+<h2 id="什么是Ascend-C算子"><a href="#什么是Ascend-C算子" class="headerlink" title="什么是Ascend C算子"></a>什么是Ascend C算子</h2><ul>
+<li>优势：<ul>
+<li>C&#x2F;C++语言的扩展</li>
+<li>屏蔽硬件差异，提供编程范式</li>
+<li>多层API抽象</li>
+<li>孪生调试，CPU可以模拟GPU</li>
+</ul>
+</li>
+<li>什么场景需要自己开发<ul>
+<li><img src="/image-1.png" alt="alt text"></li>
+<li>现在大部分都是开发网络算子，提高它的性能</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://jaderest.github.io/2025/03/18/CS-AscendC-notes-lec1/" data-id="cm9mjjt7v0000zsylcr1cexfs" data-title="CS_AscendC_notes_lec1" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI%E7%AE%97%E5%AD%90%E5%BC%80%E5%8F%91/" rel="tag">AI算子开发</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ascend-C/" rel="tag">Ascend C</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%8E%E4%B8%BA/" rel="tag">华为</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Ascend-C/">Ascend C</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/">Diary</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PFPL-notes/">PFPL notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSH/">SSH</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI%E7%AE%97%E5%AD%90%E5%BC%80%E5%8F%91/" rel="tag">AI算子开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ascend-C/" rel="tag">Ascend C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hello-World/" rel="tag">Hello World</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PFPL/" rel="tag">PFPL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Programming-Language/" rel="tag">Programming Language</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Robert-Harper/" rel="tag">Robert Harper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ScatterReduce/" rel="tag">ScatterReduce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/notes/" rel="tag">notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/protocol/" rel="tag">protocol</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AB%E8%82%A1%E6%96%87/" rel="tag">八股文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%8E%E4%B8%BA/" rel="tag">华为</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E4%B9%A0/" rel="tag">实习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag">并行计算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">词法分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">语法分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AI%E7%AE%97%E5%AD%90%E5%BC%80%E5%8F%91/" style="font-size: 16.67px;">AI算子开发</a> <a href="/tags/Ascend-C/" style="font-size: 16.67px;">Ascend C</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Hello-World/" style="font-size: 10px;">Hello World</a> <a href="/tags/PFPL/" style="font-size: 10px;">PFPL</a> <a href="/tags/Programming-Language/" style="font-size: 10px;">Programming Language</a> <a href="/tags/Robert-Harper/" style="font-size: 10px;">Robert Harper</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/ScatterReduce/" style="font-size: 10px;">ScatterReduce</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/notes/" style="font-size: 20px;">notes</a> <a href="/tags/protocol/" style="font-size: 10px;">protocol</a> <a href="/tags/%E5%85%AB%E8%82%A1%E6%96%87/" style="font-size: 16.67px;">八股文</a> <a href="/tags/%E5%8D%8E%E4%B8%BA/" style="font-size: 16.67px;">华为</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 10px;">大数据</a> <a href="/tags/%E5%AE%9E%E4%B9%A0/" style="font-size: 16.67px;">实习</a> <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" style="font-size: 10px;">并行计算</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 13.33px;">数据库</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 16.67px;">编译原理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a> <a href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" style="font-size: 10px;">词法分析</a> <a href="/tags/%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/" style="font-size: 13.33px;">语法分析</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 13.33px;">面试</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/04/">April 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">February 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/04/10/CS-DB-notes/">数据库</a>
+          </li>
+        
+          <li>
+            <a href="/2025/04/10/CS-DesignPattern/">设计模式</a>
+          </li>
+        
+          <li>
+            <a href="/2025/04/09/CS-ComputerNetwork/">计网八股</a>
+          </li>
+        
+          <li>
+            <a href="/2025/04/09/CS-SSH-notes/">SSH协议</a>
+          </li>
+        
+          <li>
+            <a href="/2025/04/09/CS-Docker-notes/">Docker内容整理</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 Jaderest<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
