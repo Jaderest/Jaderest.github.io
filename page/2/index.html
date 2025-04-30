@@ -81,14 +81,14 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-CS-SSH-notes" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-CS-LeetCode-239" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/04/09/CS-SSH-notes/" class="article-date">
-  <time class="dt-published" datetime="2025-04-09T08:58:04.000Z" itemprop="datePublished">2025-04-09</time>
+    <a href="/2025/04/19/CS-LeetCode-239/" class="article-date">
+  <time class="dt-published" datetime="2025-04-18T16:28:22.000Z" itemprop="datePublished">2025-04-19</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/SSH/">SSH</a>
+    <a class="article-category-link" href="/categories/LeetCode/">LeetCode</a>
   </div>
 
   </div>
@@ -99,84 +99,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/04/09/CS-SSH-notes/">SSH协议</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="SSH协议"><a href="#SSH协议" class="headerlink" title="SSH协议"></a>SSH协议</h2><p>Secure Shell，是一种用于安全远程登录和其他网络服务的加密协议</p>
-<h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h3><h4 id="1-连接建立"><a href="#1-连接建立" class="headerlink" title="1. 连接建立"></a>1. 连接建立</h4><ul>
-<li>客户端连接到SSH服务器的指定端口（默认22）</li>
-<li>服务器发送公钥给客户端</li>
-<li>客户端验证服务器的公钥</li>
-<li>客户端和服务器协商加密算法和压缩算法（如AES、RSA等）</li>
-<li>客户端生成一个会话密钥，并用服务器的公钥加密后发送给服务器</li>
-<li>使用会话密钥进行后续通信</li>
-</ul>
-<h4 id="2-用户认证"><a href="#2-用户认证" class="headerlink" title="2. 用户认证"></a>2. 用户认证</h4><ul>
-<li>密码认证<ul>
-<li>客户端发送用户名</li>
-<li>服务器请求密码</li>
-<li>客户端发送加密的密码</li>
-<li>服务器验证密码，返回认证结果</li>
-</ul>
-</li>
-<li>公钥认证<ul>
-<li>客户端发送用户名和公钥</li>
-<li>服务器发送一个随机数</li>
-<li>客户端用私钥加密随机数并发送给服务器</li>
-<li>服务器用公钥验证签名，验证成功后返回认证结果</li>
-</ul>
-</li>
-</ul>
-<h4 id="3-数据传输"><a href="#3-数据传输" class="headerlink" title="3. 数据传输"></a>3. 数据传输</h4><ul>
-<li>身份验证成功后SSH建立一个加密的会话通道<ul>
-<li>远程登录：在远程主机上执行命令</li>
-<li>文件传输：使用SCP或SFTP协议</li>
-<li>端口转发：将本地端口映射到远程主机的端口或反之</li>
-</ul>
-</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://jaderest.github.io/2025/04/09/CS-SSH-notes/" data-id="cm9mjjt8i002wzsyl1jda76ow" data-title="SSH协议" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSH/" rel="tag">SSH</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/notes/" rel="tag">notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/protocol/" rel="tag">protocol</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-CS-Docker-notes" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/04/09/CS-Docker-notes/" class="article-date">
-  <time class="dt-published" datetime="2025-04-09T02:49:05.000Z" itemprop="datePublished">2025-04-09</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Docker/">Docker</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/04/09/CS-Docker-notes/">Docker内容整理</a>
+      <a class="p-name article-title" href="/2025/04/19/CS-LeetCode-239/">LeetCode——239. 滑动窗口最大值</a>
     </h1>
   
 
@@ -186,120 +109,172 @@
       
         <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
 <li><a href="#%E7%9B%AE%E5%BD%95">目录</a></li>
-<li><a href="#docker%E6%9E%B6%E6%9E%84">Docker架构</a><ul>
-<li><a href="#docker%E6%9E%B6%E6%9E%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B">Docker架构工作流程</a></li>
-<li><a href="#docker%E5%AE%A2%E6%88%B7%E7%AB%AF">Docker客户端</a></li>
-<li><a href="#docker-daemon">Docker Daemon</a></li>
-<li><a href="#docker%E5%BC%95%E6%93%8Eapi">Docker引擎API</a></li>
-<li><a href="#docker%E5%AE%B9%E5%99%A8">Docker容器</a></li>
-<li><a href="#docker%E9%95%9C%E5%83%8F">Docker镜像</a></li>
-<li><a href="#docker-compose">Docker Compose</a></li>
-<li><a href="#docker-swarm">Docker Swarm</a></li>
-<li><a href="#docker-%E7%BD%91%E7%BB%9Cdocker-networks">Docker 网络（Docker Networks）</a></li>
-<li><a href="#docker-%E5%8D%B7docker-volumes">Docker 卷（Docker Volumes）</a></li>
-<li><a href="#restful%E9%A3%8E%E6%A0%BC"><strong>RESTful</strong>风格</a></li>
+<li><a href="#239-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%9C%80%E5%A4%A7%E5%80%BC">239. 滑动窗口最大值</a><ul>
+<li><a href="#%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90">思路分析</a></li>
+<li><a href="#%E6%B3%951%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97">法1：单调队列</a></li>
+<li><a href="#%E6%B3%952%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97">法2：单调队列</a></li>
 </ul>
 </li>
-<li><a href="#%E5%B8%B8%E7%94%A8docker%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%91%BD%E4%BB%A4">常用Docker客户端命令</a></li>
-<li><a href="#docker%E9%95%9C%E5%83%8F%E6%93%8D%E4%BD%9C">Docker镜像操作</a></li>
-<li><a href="#docker%E5%AE%B9%E5%99%A8%E8%BF%9E%E6%8E%A5">Docker容器连接</a></li>
+</ul>
+<h2 id="239-滑动窗口最大值"><a href="#239-滑动窗口最大值" class="headerlink" title="239. 滑动窗口最大值"></a>239. 滑动窗口最大值</h2><p>给你一个整数数组 <code>nums</code>，有一个大小为 <code>k</code> 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 <code>k</code> 个数字。滑动窗口每次只向右移动一位。</p>
+<p>返回 <em>滑动窗口中的最大值</em> 。</p>
+<h3 id="思路分析"><a href="#思路分析" class="headerlink" title="思路分析"></a>思路分析</h3><ul>
+<li>暴力解法：每次移动窗口，遍历窗口内的元素，找到最大值，时间复杂度为O(n*k)</li>
+<li>优化1：我们既然要找最大值，那么就找一个数据结构能够高效地维护最大值，于是可以想到堆（优先队列）<ul>
+<li>维护一个大小为k的最大堆</li>
+<li>那么！如何判断这个元素是否还在窗口内呢？使用 <code>pair&lt;int, int&gt;</code> first为元素值、second为下标<ul>
+<li>在每次移动窗口时，插入新的元素</li>
+<li>当堆顶元素的下标小于当前窗口的左边界时，说明这个元素已经不在窗口内了，弹出</li>
+<li>堆顶元素就是当前窗口的最大值，在边界内时，则返回</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>优化2：使用双端队列维护<ul>
+<li>考虑一个性质（这个在比大小中经常可以用作优化），我们数据结构需要什么<strong>性质</strong>&#x2F;做出什么<strong>优化</strong><ul>
+<li>下标i, j在窗口内，i &lt; j时，nums[i] &lt;&#x3D; nums[j]的话，若nums[j]出队，那么nums[i]必定已经出队了。</li>
+<li><strong>所以</strong>，j存在的信息就可以由i存在来维护，那么什么信息是需要我们记下来的呢？</li>
+<li><code>i &lt; j时，nums[i] &gt; nums[j]</code>这个信息才是我们需要特别记下来的，对应的数据结构就是单调队列，一个存nums元素值的单调递减队列，同时下标由于是从小到大遍历的，所以下标自然的就是单调递增的</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="法1：单调队列"><a href="#法1：单调队列" class="headerlink" title="法1：单调队列"></a>法1：单调队列</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">maxSlidingWindow</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        priority_queue&lt;pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;&gt; q; <span class="comment">// max heap</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; k; ++i) &#123;</span><br><span class="line">            q.<span class="built_in">emplace</span>(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; ans = &#123;q.<span class="built_in">top</span>().first&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = k; i &lt; n; ++i) &#123;</span><br><span class="line">            q.<span class="built_in">emplace</span>(nums[i], i);</span><br><span class="line">            <span class="keyword">while</span> (q.<span class="built_in">top</span>().second &lt;= i - k) &#123; <span class="comment">// 一直pop掉不在窗口中的元素, O(nlogn)</span></span><br><span class="line">                q.<span class="built_in">pop</span>();</span><br><span class="line">            &#125;</span><br><span class="line">            ans.<span class="built_in">push_back</span>(q.<span class="built_in">top</span>().first);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="法2：单调队列"><a href="#法2：单调队列" class="headerlink" title="法2：单调队列"></a>法2：单调队列</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">maxSlidingWindow</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        deque&lt;<span class="type">int</span>&gt; q;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; k; ++i) &#123;</span><br><span class="line">            <span class="keyword">while</span> (!q.<span class="built_in">empty</span>() &amp;&amp; nums[i] &gt;= nums[q.<span class="built_in">back</span>()]) &#123; <span class="comment">// 单调队列的维护</span></span><br><span class="line">                q.<span class="built_in">pop_back</span>();</span><br><span class="line">            &#125;</span><br><span class="line">            q.<span class="built_in">push_back</span>(i);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 然后单调递减队列的头部即当前窗口的最大值</span></span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; ans = &#123;nums[q.<span class="built_in">front</span>()]&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = k; i &lt; n; ++i) &#123;</span><br><span class="line">            <span class="keyword">while</span> (!q.<span class="built_in">empty</span>() &amp;&amp; nums[i] &gt;= nums[q.<span class="built_in">back</span>()]) &#123;</span><br><span class="line">                q.<span class="built_in">pop_back</span>();</span><br><span class="line">            &#125;</span><br><span class="line">            q.<span class="built_in">push_back</span>(i);</span><br><span class="line">            <span class="keyword">while</span> (q.<span class="built_in">front</span>() &lt;= i - k) &#123;</span><br><span class="line">                q.<span class="built_in">pop_front</span>();</span><br><span class="line">            &#125;</span><br><span class="line">            ans.<span class="built_in">push_back</span>(nums[q.<span class="built_in">front</span>()]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://jaderest.github.io/2025/04/19/CS-LeetCode-239/" data-id="cma3s5ci0002jhkyl7t3r2l1g" data-title="LeetCode——239. 滑动窗口最大值" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LeetCode/" rel="tag">LeetCode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" rel="tag">滑动窗口</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-CS-LeetCode-3" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/04/18/CS-LeetCode-3/" class="article-date">
+  <time class="dt-published" datetime="2025-04-18T12:49:12.000Z" itemprop="datePublished">2025-04-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/LeetCode/">LeetCode</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/04/18/CS-LeetCode-3/">LeetCode——3. 无重复字符的最长子串</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#%E7%9B%AE%E5%BD%95">目录</a></li>
+<li><a href="#3-%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2">3. 无重复字符的最长子串</a><ul>
+<li><a href="#%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90">思路分析</a></li>
+<li><a href="#%E8%A7%A3%E6%B3%95">解法</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="3-无重复字符的最长子串"><a href="#3-无重复字符的最长子串" class="headerlink" title="3. 无重复字符的最长子串"></a>3. 无重复字符的最长子串</h2><p>给定一个字符串 <code>s</code> ，请你找出其中不含有重复字符的 最长 <strong>子串</strong> 的长度。</p>
+<blockquote>
+<p>input: s &#x3D; “abcabcbb”<br>output: 3<br>explanation: 因为无重复字符的最长<strong>子串</strong>是 “abc”，所以其长度为 3。</p>
+</blockquote>
+<h3 id="思路分析"><a href="#思路分析" class="headerlink" title="思路分析"></a>思路分析</h3><ul>
+<li>最基本的思路是暴力解法，遍历所有子串，判断是否有重复字符，时间复杂度为O(n^3)</li>
+<li>遍历的方法可以改进：从不同的起点开始遍历，判断是否有重复字符，时间复杂度为O(n^2)</li>
+<li>我们发现<ul>
+<li>假设我们选择字符串中的第 <code>k</code> 个字符作为起始位置，并且得到了不包含重复字符的最长子串的结束位置为 <code>r_k</code>，当我们选择第 <code>k+1</code> 个字符作为起始位置时，<code>k+1</code> 到 <code>r_k</code> 显然不重复，并且由于 <code>k</code> 位置的字符删除，我们则可以继续尝试增大 <code>r_k</code> ，直到出现重复</li>
+<li><code>k</code>和<code>r_k</code>就像窗口的左右边界，<code>k</code>是左边界，<code>r_k</code>是右边界</li>
+<li>从左到右滑动窗口，直到出现重复字符，得到最长子串的长度</li>
+</ul>
+</li>
+<li>子串字符查重则可以用哈希表来实现，O(1)的时间复杂度</li>
+</ul>
+<h3 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        unordered_set&lt;<span class="type">char</span>&gt; charr;</span><br><span class="line">        <span class="type">int</span> len = s.<span class="built_in">size</span>();</span><br><span class="line">        <span class="type">int</span> rk = <span class="number">-1</span>, ans = <span class="number">0</span>; <span class="comment">// rk为右边界</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; ++i) &#123; <span class="comment">// i为左边界</span></span><br><span class="line">            <span class="keyword">if</span> (i != <span class="number">0</span>) &#123;</span><br><span class="line">                charr.<span class="built_in">erase</span>(s[i<span class="number">-1</span>]); <span class="comment">// 即使左边界右移，删除左边界的字符</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span> (rk + <span class="number">1</span> &lt; len &amp;&amp; charr.<span class="built_in">count</span>(s[rk + <span class="number">1</span>]) == <span class="number">0</span>) &#123;</span><br><span class="line">                charr.<span class="built_in">insert</span>(s[rk + <span class="number">1</span>]); </span><br><span class="line">                ++rk;</span><br><span class="line">            &#125;</span><br><span class="line">            ans = <span class="built_in">max</span>(ans, rk - i + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://jaderest.github.io/2025/04/18/CS-LeetCode-3/" data-id="cma3s5ci1002ohkylcrkfhc3i" data-title="LeetCode——3. 无重复字符的最长子串" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LeetCode/" rel="tag">LeetCode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" rel="tag">滑动窗口</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-CS-LeetCode-2364" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/04/18/CS-LeetCode-2364/" class="article-date">
+  <time class="dt-published" datetime="2025-04-18T08:45:08.000Z" itemprop="datePublished">2025-04-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/LeetCode/">LeetCode</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/04/18/CS-LeetCode-2364/">LeetCode——2364. 统计坏数对的数目</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#%E7%9B%AE%E5%BD%95">目录</a></li>
+<li><a href="#2364-%E7%BB%9F%E8%AE%A1%E5%9D%8F%E6%95%B0%E5%AF%B9%E7%9A%84%E6%95%B0%E7%9B%AE">2364. 统计坏数对的数目</a><ul>
+<li><a href="#%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90">思路分析</a></li>
+<li><a href="#%E6%B3%951%E5%93%88%E5%B8%8C%E8%A1%A8">法1：哈希表</a></li>
+<li><a href="#%E6%B3%952%E5%8F%8C%E6%8C%87%E9%92%88">法2：双指针</a></li>
+</ul>
+</li>
 </ul>
         
           <p class="article-more-link">
-            <a href="/2025/04/09/CS-Docker-notes/#more">Read More</a>
+            <a href="/2025/04/18/CS-LeetCode-2364/#more">Read More</a>
           </p>
         
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://jaderest.github.io/2025/04/09/CS-Docker-notes/" data-id="cm9mjjt89000qzsyl099rfszc" data-title="Docker内容整理" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://jaderest.github.io/2025/04/18/CS-LeetCode-2364/" data-id="cma3s5ci0002ihkyl3nq18mzo" data-title="LeetCode——2364. 统计坏数对的数目" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/notes/" rel="tag">notes</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-CS-Compiler-notes-Chap5" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/03/31/CS-Compiler-notes-Chap5/" class="article-date">
-  <time class="dt-published" datetime="2025-03-31T14:42:31.000Z" itemprop="datePublished">2025-03-31</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/03/31/CS-Compiler-notes-Chap5/">编译原理Chap5_语法制导的翻译</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
-<li><a href="#%E7%9B%AE%E5%BD%95">目录</a></li>
-<li><a href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5">基础概念</a><ul>
-<li><a href="#%E8%AF%AD%E6%B3%95%E5%88%B6%E5%AF%BC%E5%AE%9A%E4%B9%89">语法制导定义</a></li>
-<li><a href="#%E8%AF%AD%E6%B3%95%E5%88%B6%E5%AF%BC%E7%BF%BB%E8%AF%91">语法制导翻译</a></li>
-<li><a href="#sdd">SDD</a></li>
-<li><a href="#%E7%BB%BC%E5%90%88%E5%B1%9E%E6%80%A7%E7%BB%A7%E6%89%BF%E5%B1%9E%E6%80%A7">综合属性&amp;继承属性</a></li>
-</ul>
-</li>
-</ul>
-<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><h3 id="语法制导定义"><a href="#语法制导定义" class="headerlink" title="语法制导定义"></a>语法制导定义</h3><p>文法符号与某些<strong>属性</strong>相关联，并通过<strong>语义规则</strong>描述如何计算属性的值</p>
-<ul>
-<li>如下例子的作用则是将中缀表达式转化乘后缀表达式，其中的code就是<strong>属性</strong></li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E-&gt;E1+T           E.code   =   E1.code || T.code || &#x27;+&#x27;</span><br></pre></td></tr></table></figure>
-
-<h3 id="语法制导翻译"><a href="#语法制导翻译" class="headerlink" title="语法制导翻译"></a>语法制导翻译</h3><p>产生式体加入<strong>语义动作</strong>，并在<strong>适当时候</strong>执行动作</p>
-<h3 id="SDD"><a href="#SDD" class="headerlink" title="SDD"></a>SDD</h3><ul>
-<li>Syntax-Directed Definition 是上下文无关文法和属性&#x2F;规则的结合  <ul>
-<li><strong>属性</strong>和<strong>文法符号</strong>相关联，按需确定各个文法符号需要哪些<strong>属性规则</strong>和<strong>产生式</strong>相关联</li>
-</ul>
-</li>
-<li>文法符号X和属性a，X.a表示分析树中某个标号为X的结点的值<ul>
-<li>分析树结点和它的分支对应一个产生式规则</li>
-<li>语义规则确定了这些结点上属性的取值和计算<blockquote>
-<p>属性按需设置，例如我们需要知道它的类型type，和内存位置place  </p>
-<ul>
-<li>产生式规则：E -&gt; E1 + T<ul>
-<li>假设只有int&#x2F;float两种类型</li>
-<li>E.type &#x3D; if(E1.type &#x3D;&#x3D; T.type) then T.type else float;</li>
-<li>E.place &#x3D; newtemp();  &#x2F;&#x2F; 返回一个新的内存位置</li>
-</ul>
-</li>
-</ul>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="综合属性-继承属性"><a href="#综合属性-继承属性" class="headerlink" title="综合属性&amp;继承属性"></a>综合属性&amp;继承属性</h3>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://jaderest.github.io/2025/03/31/CS-Compiler-notes-Chap5/" data-id="cm9mjjt86000azsylfsjr24qy" data-title="编译原理Chap5_语法制导的翻译" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/notes/" rel="tag">notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">语法分析</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LeetCode/" rel="tag">LeetCode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%85%AB%E8%82%A1%E6%96%87/" rel="tag">八股文</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%9E%E4%B9%A0/" rel="tag">实习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
 
     </footer>
   </div>
@@ -313,7 +288,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -324,7 +299,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Ascend-C/">Ascend C</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/">Diary</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PFPL-notes/">PFPL notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSH/">SSH</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Ascend-C/">Ascend C</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/">Diary</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/LeetCode/">LeetCode</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PFPL-notes/">PFPL notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSH/">SSH</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
     </div>
   </div>
 
@@ -334,7 +309,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI%E7%AE%97%E5%AD%90%E5%BC%80%E5%8F%91/" rel="tag">AI算子开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ascend-C/" rel="tag">Ascend C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hello-World/" rel="tag">Hello World</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PFPL/" rel="tag">PFPL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Programming-Language/" rel="tag">Programming Language</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Robert-Harper/" rel="tag">Robert Harper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ScatterReduce/" rel="tag">ScatterReduce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/notes/" rel="tag">notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/protocol/" rel="tag">protocol</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AB%E8%82%A1%E6%96%87/" rel="tag">八股文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%8E%E4%B8%BA/" rel="tag">华为</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E4%B9%A0/" rel="tag">实习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag">并行计算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">词法分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">语法分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI%E7%AE%97%E5%AD%90%E5%BC%80%E5%8F%91/" rel="tag">AI算子开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ascend-C/" rel="tag">Ascend C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hello-World/" rel="tag">Hello World</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LeetCode/" rel="tag">LeetCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/" rel="tag">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PFPL/" rel="tag">PFPL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Programming-Language/" rel="tag">Programming Language</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Robert-Harper/" rel="tag">Robert Harper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ScatterReduce/" rel="tag">ScatterReduce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/notes/" rel="tag">notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/protocol/" rel="tag">protocol</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/" rel="tag">中间代码优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AB%E8%82%A1%E6%96%87/" rel="tag">八股文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%8E%E4%B8%BA/" rel="tag">华为</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E4%B9%A0/" rel="tag">实习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag">并行计算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" rel="tag">滑动窗口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%BD%91/" rel="tag">计网</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">词法分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/" rel="tag">语法分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/" rel="tag">静态分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
     </div>
   </div>
 
@@ -344,7 +319,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AI%E7%AE%97%E5%AD%90%E5%BC%80%E5%8F%91/" style="font-size: 16.67px;">AI算子开发</a> <a href="/tags/Ascend-C/" style="font-size: 16.67px;">Ascend C</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Hello-World/" style="font-size: 10px;">Hello World</a> <a href="/tags/PFPL/" style="font-size: 10px;">PFPL</a> <a href="/tags/Programming-Language/" style="font-size: 10px;">Programming Language</a> <a href="/tags/Robert-Harper/" style="font-size: 10px;">Robert Harper</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/ScatterReduce/" style="font-size: 10px;">ScatterReduce</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/notes/" style="font-size: 20px;">notes</a> <a href="/tags/protocol/" style="font-size: 10px;">protocol</a> <a href="/tags/%E5%85%AB%E8%82%A1%E6%96%87/" style="font-size: 16.67px;">八股文</a> <a href="/tags/%E5%8D%8E%E4%B8%BA/" style="font-size: 16.67px;">华为</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 10px;">大数据</a> <a href="/tags/%E5%AE%9E%E4%B9%A0/" style="font-size: 16.67px;">实习</a> <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" style="font-size: 10px;">并行计算</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 13.33px;">数据库</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 16.67px;">编译原理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a> <a href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" style="font-size: 10px;">词法分析</a> <a href="/tags/%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/" style="font-size: 13.33px;">语法分析</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 13.33px;">面试</a>
+      <a href="/tags/AI%E7%AE%97%E5%AD%90%E5%BC%80%E5%8F%91/" style="font-size: 14px;">AI算子开发</a> <a href="/tags/Ascend-C/" style="font-size: 14px;">Ascend C</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Hello-World/" style="font-size: 10px;">Hello World</a> <a href="/tags/LeetCode/" style="font-size: 16px;">LeetCode</a> <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/PFPL/" style="font-size: 10px;">PFPL</a> <a href="/tags/Programming-Language/" style="font-size: 10px;">Programming Language</a> <a href="/tags/Robert-Harper/" style="font-size: 10px;">Robert Harper</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/ScatterReduce/" style="font-size: 10px;">ScatterReduce</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/notes/" style="font-size: 20px;">notes</a> <a href="/tags/protocol/" style="font-size: 10px;">protocol</a> <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/" style="font-size: 10px;">中间代码优化</a> <a href="/tags/%E5%85%AB%E8%82%A1%E6%96%87/" style="font-size: 16px;">八股文</a> <a href="/tags/%E5%8D%8E%E4%B8%BA/" style="font-size: 14px;">华为</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 10px;">大数据</a> <a href="/tags/%E5%AE%9E%E4%B9%A0/" style="font-size: 16px;">实习</a> <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" style="font-size: 10px;">并行计算</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 12px;">数据库</a> <a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" style="font-size: 12px;">滑动窗口</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18px;">算法</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 16px;">编译原理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%A1%E7%BD%91/" style="font-size: 10px;">计网</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a> <a href="/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" style="font-size: 10px;">词法分析</a> <a href="/tags/%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/" style="font-size: 12px;">语法分析</a> <a href="/tags/%E9%93%BE%E8%A1%A8/" style="font-size: 10px;">链表</a> <a href="/tags/%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/" style="font-size: 10px;">静态分析</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 16px;">面试</a>
     </div>
   </div>
 
@@ -366,23 +341,23 @@
       <ul>
         
           <li>
-            <a href="/2025/04/10/CS-DB-notes/">数据库</a>
+            <a href="/2025/04/30/CS-Compiler-lab5/">中间代码优化——编译原理实验五</a>
           </li>
         
           <li>
-            <a href="/2025/04/10/CS-DesignPattern/">设计模式</a>
+            <a href="/2025/04/27/CS-%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">4.28 面试准备</a>
           </li>
         
           <li>
-            <a href="/2025/04/09/CS-ComputerNetwork/">计网八股</a>
+            <a href="/2025/04/19/CS-LeetCode-LinkedList/">LeetCode——链表汇总 206、</a>
           </li>
         
           <li>
-            <a href="/2025/04/09/CS-SSH-notes/">SSH协议</a>
+            <a href="/2025/04/19/CS-LeetCode-239/">LeetCode——239. 滑动窗口最大值</a>
           </li>
         
           <li>
-            <a href="/2025/04/09/CS-Docker-notes/">Docker内容整理</a>
+            <a href="/2025/04/18/CS-LeetCode-3/">LeetCode——3. 无重复字符的最长子串</a>
           </li>
         
       </ul>
